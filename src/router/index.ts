@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // lego cny
 import Index from '../views/Index/index.vue'
-import Check from '../views/Check/index.vue'
+import Register from '../views/Register/index.vue'
 import Backup from '../views/Backup/index.vue'
 
 const router = createRouter({
@@ -18,9 +18,9 @@ const router = createRouter({
       component: Index
     },
     {
-      path: '/check',
-      name: 'check',
-      component: Check
+      path: '/register',
+      name: 'register',
+      component: Register
     },
     {
       path: '/backup',

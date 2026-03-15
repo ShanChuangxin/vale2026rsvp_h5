@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "NotoSansSC-Bold";
+  src: url("@/assets/fonts/NotoSansSC-Bold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoSansSC-Medium";
+  src: url("@/assets/fonts/NotoSansSC-Medium.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoSansSC-Regular";
+  src: url("@/assets/fonts/NotoSansSC-Regular.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ValeSansVariable-Roman";
+  src: url("@/assets/fonts/ValeSansVariable-Roman.woff") format("woff");
+  font-display: swap;
+}
