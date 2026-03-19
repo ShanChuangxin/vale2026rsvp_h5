@@ -43,6 +43,16 @@ const route = useRoute();
 // }
 // onMounted(() => getTodayPrizeInfo())
 
+// 监测手机宽高比进行提醒
+onMounted(() => {
+  if (window.innerWidth > window.innerHeight) {
+    Toast({
+      message: "请在手机或者竖屏下使用",
+      duration: 3000
+    })
+  }
+});
+
 // 开屏图片动画
 const needSplash = ref(false);  // 这个变量未来从localStorage获取
 const showSplash = ref(false);
@@ -88,8 +98,8 @@ const countdown = ref(0);   // 倒计时秒数
 let timer: ReturnType<typeof setInterval> | null = null; // 定时器ID
 // 正则检查手机号（中国大陆手机号示例）
 function isValidMobile(mobile: string) {
-  const reg = /^1[3-9]\d{9}$/
-  return reg.test(mobile)
+  const reg = /^1[3-9]\d{9}$/;
+  return reg.test(mobile);
 }
 function sendCode() {
     // 1. 倒计时中禁止点击
@@ -97,14 +107,14 @@ function sendCode() {
 
     // 2. 手机号不能为空
     if (!form.value.mobile_number) {
-        Toast('请输入手机号')
-        return
+        Toast('请输入手机号');
+        return;
     }
 
     // 3. 手机号格式校验
     if (!isValidMobile(form.value.mobile_number)) {
-        Toast('手机号格式不正确')
-        return
+        Toast('手机号格式不正确');
+        return;
     }
 
     // 4. 在这里调用发送验证码接口，例如：
@@ -115,18 +125,22 @@ function sendCode() {
     // 5.开始倒计时
     countdown.value = 30;
     timer = setInterval(() => {
-    countdown.value--
+    countdown.value--;
     if (countdown.value <= 0 && timer) {
-      clearInterval(timer)
-      timer = null
+      clearInterval(timer);
+      timer = null;
     }
-  }, 1000)
+  }, 1000);
 }
 
 // 表单提交
 function submitForm() {
   if (!form.value.invitation_code) {
     Toast('请输入邀请码');
+    // Toast({
+    //     message: "抵达方式建议您于4月29日前提供 \n It is recommended that you provide the arrival details by April 29th.",
+    //     duration: 2000
+    // })
     return;
   }
   if (!form.value.mobile_number) {
@@ -169,15 +183,18 @@ function submitForm() {
             <div class="register-body">
                 <form @submit.prevent="submitForm" class="form">
                     <div class="form-item">
-                        <label>公司邀请码 * Invitation Code</label>
+                        <!-- <label>公司邀请码 * Invitation Code</label> -->
+                        <div class="label-invitation-code"></div>
                         <input type="text" v-model="form.invitation_code" placeholder="请输入邀请码" />
                     </div>
                     <div class="form-item">
-                        <label>手机号码 * Mobile Code</label>
+                        <!-- <label>手机号码 * Mobile Code</label> -->
+                        <div class="label-mobile-number"></div>
                         <input type="text" v-model="form.mobile_number" placeholder="请输入手机号" />
                     </div>
                     <div class="form-item">
-                        <label>验证码 * Verification Code</label>
+                        <!-- <label>验证码 * Verification Code</label> -->
+                        <div class="label-verification-code"></div>
                         <div class="verification-code-area">
                             <input type="text" v-model="form.verification_code" placeholder="请输入验证码" class="verification-code-input"/>
                             <div class="get-code-area" :class="{disabled: countdown > 0}" @click="sendCode">
@@ -332,10 +349,28 @@ function submitForm() {
                     margin-top: .2rem;
                     display: flex;
                     flex-direction: column;
-                    label {
-                        font-family: "NotoSansSC-Bold";
-                        font-weight: 600;
-                        color: #6c727f;
+                    // label {
+                    //     font-family: "NotoSansSC-Bold";
+                    //     font-weight: 600;
+                    //     color: #6c727f;
+                    // }
+                    .label-invitation-code {
+                        width: 4.36rem;
+                        height: .2733rem;
+                        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/label-invitation-code.png") top center no-repeat;
+                        background-size: 100% 100%;
+                    }
+                    .label-mobile-number {
+                        width: 4.36rem;
+                        height: .2733rem;
+                        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/label-mobile-number.png") top center no-repeat;
+                        background-size: 100% 100%;
+                    }
+                    .label-verification-code {
+                        width: 4.36rem;
+                        height: .2733rem;
+                        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/label-verification-code.png") top center no-repeat;
+                        background-size: 100% 100%;
                     }
                     input {
                         margin-top: .08rem;
