@@ -21,33 +21,33 @@ onMounted(() => {
 const showDateDropdown = ref(false);
 const dateSelected = ref('');
 const dateOptions = [
-  { label: '2026/05/13', value: '2026/05/13'},
-  { label: '2026/05/14', value: '2026/05/14'}
+  { label: '2026/05/14', value: '2026/05/14'},
+  { label: '2026/05/15', value: '2026/05/15'}
 ];
 function dateSelectOption(item: any) {
   dateSelected.value = item.value;
-  form.value.arrival_date = item.value;
+  form.value.departure_date = item.value;
   showDateDropdown.value = false;
 }
 // 行程
-const showArrivalDropdown = ref(false);
-const arrivalSelected = ref('');
-const arrivalOptions = [
+const showDepartureDropdown = ref(false);
+const departureSelected = ref('');
+const departureOptions = [
   { label: '大理凤仪机场', value: '大理凤仪机场'},
   { label: '大理站', value: '大理站'},
   { label: '自驾或其他', value: '自驾或其他'},
   { label: '稍后提供', value: '稍后提供'},
 ];
-function arrivalSelectOption(item: any) {
+function departureSelectOption(item: any) {
   // 1. 赋值
-  arrivalSelected.value = item.value;
-  form.value.arrival_transport = item.value;
-  showArrivalDropdown.value = false;
+  departureSelected.value = item.value;
+  form.value.departure_transport = item.value;
+  showDepartureDropdown.value = false;
   // 2. 如果是稍后提供，则进行弹窗
   if (item.value == '稍后提供') {
     Toast({
-        message: "抵达方式建议您于4月29日前提供 \n It is recommended that you provide the arrival details by April 29th.",
-        duration: 2000
+        message: "如您暂无法确定返程方式，建议于5月7日前补充提供。\n If your departure transport is not yet confirmed, please provide them by May 7.",
+        duration: 3000
     })
   }
 }
@@ -91,9 +91,9 @@ function handleClickOutside(e: MouseEvent) {
   if (elDate && !elDate.contains(e.target as Node)) {
     showDateDropdown.value = false;
   }
-  const elArrival = document.querySelector('.arrival-select-box')
-  if (elArrival && !elArrival.contains(e.target as Node)) {
-    showArrivalDropdown.value = false;
+  const elDeparture = document.querySelector('.departure-select-box')
+  if (elDeparture && !elDeparture.contains(e.target as Node)) {
+    showDepartureDropdown.value = false;
   }
 }
 onMounted(() => {
@@ -105,24 +105,24 @@ onUnmounted(() => {
 
 // 表单信息
 const form = ref({
-    arrival_date: '',
-    arrival_transport: '',
+    departure_date: '',
+    departure_transport: '',
     pickup_required: '',
     transport_number: '',
-    arrival_hour: null as number | null,  // 既保证类型是数字类型，又保证placerholder可以正常显示
-    arrival_min: null as number | null,
+    departure_hour: null as number | null,  // 既保证类型是数字类型，又保证placerholder可以正常显示
+    departure_min: null as number | null,
 });
 // 表单提交
 function submitForm() {
-  if (!form.value.arrival_date) {
+  if (!form.value.departure_date) {
     Toast('请选择抵达日期');
     return;
   }
-  if (!form.value.arrival_transport) {
+  if (!form.value.departure_transport) {
     Toast('请选择抵达方式');
     return;
   }
-  if (form.value.arrival_transport == '大理凤仪机场' || form.value.arrival_transport == '大理站' ) {
+  if (form.value.departure_transport == '大理凤仪机场' || form.value.departure_transport == '大理站' ) {
     if (!form.value.pickup_required) {
       Toast('请选择是否需要接机/接车');
       return;
@@ -131,23 +131,23 @@ function submitForm() {
       Toast('请输入航班号或车次');
       return;
     }
-    if (!form.value.arrival_hour || !form.value.arrival_min) {
+    if (!form.value.departure_hour || !form.value.departure_min) {
       Toast('请输入抵达时间');
       return;
     }
-    if (form.value.arrival_hour < 0 || form.value.arrival_hour > 23) {
+    if (form.value.departure_hour < 0 || form.value.departure_hour > 23) {
       Toast('请调整抵达小时');
       return;
     }
-    if (form.value.arrival_min < 0 || form.value.arrival_min > 59) {
+    if (form.value.departure_min < 0 || form.value.departure_min > 59) {
       Toast('请调整抵达分钟');
       return;
     }
   } else {
     form.value.pickup_required = '';
     form.value.transport_number = '';
-    form.value.arrival_hour = 0;
-    form.value.arrival_min = 0;
+    form.value.departure_hour = 0;
+    form.value.departure_min = 0;
   }
   
   
@@ -161,21 +161,21 @@ function submitForm() {
   <div class="page-body">
     <!-- 头部区域 -->
     <div class="head-container">
-      <img src="https://www.1024.art/projects/static/vale2026rsvp/images/arrival/header.jpg" class="head-img"></img>
-      <img src="https://www.1024.art/projects/static/vale2026rsvp/images/arrival/segmented-stepper-2.png" class="head-step"></img>
+      <img src="https://www.1024.art/projects/static/vale2026rsvp/images/departure/header.jpg" class="head-img"></img>
+      <img src="https://www.1024.art/projects/static/vale2026rsvp/images/departure/segmented-stepper-3.png" class="head-step"></img>
     </div>
     <!-- 表单区域 -->
     <div class="form-container">
       <form @submit.prevent="submitForm" class="form">
         <div class="date-select-item">
-            <!-- <label>抵达日期 * Arrival Date</label> -->
-            <div class="label-arrival-date"></div>
+            <!-- <label>抵达日期 * Departure Date</label> -->
+            <div class="label-departure-date"></div>
             <div class="date-select-box">
               <!-- 按钮 -->
               <div class="date-select-btn" @click="showDateDropdown = !showDateDropdown">
-                <span>{{ dateSelected ||  '请选择抵达日期'}}</span>
+                <span>{{ dateSelected ||  '请选择返程日期'}}</span>
                 <!-- 箭头（可以换图片） -->
-                <img src="https://www.1024.art/projects/static/vale2026rsvp/images/arrival/select-btn.png" class="arrow" :class="{ rotate: showDateDropdown }" />
+                <img src="https://www.1024.art/projects/static/vale2026rsvp/images/departure/select-btn.png" class="arrow" :class="{ rotate: showDateDropdown }" />
               </div>
               <!-- 下拉框 -->
               <div class="date-dropdown" v-if="showDateDropdown">
@@ -191,23 +191,23 @@ function submitForm() {
             </div>
         </div>
 
-        <div class="arrival-select-item">
-            <!-- <label>抵达方式 * Arrival Transport</label> -->
-            <div class="label-arrival-transport"></div>
-            <div class="arrival-select-box">
+        <div class="departure-select-item">
+            <!-- <label>抵达方式 * Departure Transport</label> -->
+            <div class="label-departure-transport"></div>
+            <div class="departure-select-box">
               <!-- 按钮 -->
-              <div class="arrival-select-btn" @click="showArrivalDropdown = !showArrivalDropdown">
-                <span>{{ arrivalSelected ||  '请选择抵达方式'}}</span>
+              <div class="departure-select-btn" @click="showDepartureDropdown = !showDepartureDropdown">
+                <span>{{ departureSelected ||  '请选择返程方式'}}</span>
                 <!-- 箭头（可以换图片） -->
-                <img src="https://www.1024.art/projects/static/vale2026rsvp/images/arrival/select-btn.png" class="arrow" :class="{ rotate: showArrivalDropdown }" />
+                <img src="https://www.1024.art/projects/static/vale2026rsvp/images/departure/select-btn.png" class="arrow" :class="{ rotate: showDepartureDropdown }" />
               </div>
               <!-- 下拉框 -->
-              <div class="arrival-dropdown" v-if="showArrivalDropdown">
+              <div class="departure-dropdown" v-if="showDepartureDropdown">
                 <div 
-                  v-for="item in arrivalOptions"
+                  v-for="item in departureOptions"
                   :key="item.value"
-                  class="arrival-dropdown-item"
-                  @click="arrivalSelectOption(item)"
+                  class="departure-dropdown-item"
+                  @click="departureSelectOption(item)"
                 >
                 {{ item.label }}
               </div>
@@ -215,9 +215,9 @@ function submitForm() {
             </div>
         </div>
 
-        <div class="tips-not-sure-transport"></div>
+        <div class="tips-not-sure-departure"></div>
 
-        <div v-show="arrivalSelected === '大理凤仪机场' || arrivalSelected === '大理站'" class="radio-container">
+        <div v-show="departureSelected === '大理凤仪机场' || departureSelected === '大理站'" class="radio-container">
             <!-- <label>是否需要接机/接车 * Pick-up Required</label> -->
             <div class="label-pickup-required"></div>
             <div class="radio-group">
@@ -231,20 +231,14 @@ function submitForm() {
                 <input type="radio" value="否" v-model="form.pickup_required">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">否 (No)</div> -->
-                <div class="radio-label-no"></div>
+                 <div class="radio-label-no"></div>
               </label>
             </div>
         </div>
 
-        <div v-show="arrivalSelected === '大理凤仪机场' || arrivalSelected === '大理站'" class="text-item">
-            <!-- <label>航班号或车次 * Flight / Train Number</label> -->
-            <div class="label-transport-number"></div>
-            <input type="text" v-model="form.transport_number" placeholder="请填写航班号或车次" />
-        </div>
-
-        <div v-show="arrivalSelected === '大理凤仪机场' || arrivalSelected === '大理站'" class="hour-select-item">
-            <!-- <label>落地/到站时间 * Landing Time / Train Arrival Time</label> -->
-            <div class="label-arrival-time"></div>
+        <div v-show="departureSelected === '大理凤仪机场' || departureSelected === '大理站'" class="hour-select-item">
+            <!-- <label>落地/到站时间 * Landing Time / Train Departure Time</label> -->
+            <div class="label-departure-time"></div>
             <div class="time-container">
               <!-- 以下拉菜单的方式填写时间，弃用 -->
               <!-- <div class="hour-select-box">
@@ -265,12 +259,14 @@ function submitForm() {
               </div> -->
               
               <!-- 文本框的形式 -->
-              <input class="time-input" type="number" v-model="form.arrival_hour" placeholder="时" />
+              <input class="time-input" type="number" v-model="form.departure_hour" placeholder="时" />
               <div class="semicolon">:</div>
-              <input class="time-input" type="number" v-model="form.arrival_min" placeholder="分" />
+              <input class="time-input" type="number" v-model="form.departure_min" placeholder="分" />
             </div>
 
             <div class="tips-time-format"></div>
+
+            <div class="tips-service-limit"></div>
             
         </div>
 
@@ -333,10 +329,10 @@ function submitForm() {
           //   font-weight: 600;
           //   color: #6c727f;
           // }
-          .label-arrival-date {
+          .label-departure-date {
             width: 4.36rem;
             height: .2733rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/label-arrival-date.png") top center no-repeat;
+            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/label-departure-date.png") top center no-repeat;
             background-size: 100% 100%;
           }
           .date-select-box {
@@ -385,7 +381,7 @@ function submitForm() {
             }
           }
         }
-        .arrival-select-item {
+        .departure-select-item {
           margin-top: .2rem;
           display: flex;
           flex-direction: column;
@@ -394,17 +390,17 @@ function submitForm() {
           //   font-weight: 600;
           //   color: #6c727f;
           // }
-          .label-arrival-transport {
+          .label-departure-transport {
             width: 4.36rem;
             height: .2733rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/label-arrival-transport.png") top center no-repeat;
+            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/label-departure-transport.png") top center no-repeat;
             background-size: 100% 100%;
           }
-          .arrival-select-box {
+          .departure-select-box {
             margin-top: .08rem;
             position: relative;
             width: 4.36rem;
-            .arrival-select-btn {
+            .departure-select-btn {
               height: .6133rem;
               border: .0133rem solid #E0E0E0;
               border-radius: .1781rem;
@@ -423,7 +419,7 @@ function submitForm() {
                 transform: rotate(180deg);
               }
             }
-            .arrival-dropdown {
+            .departure-dropdown {
               position: absolute;
               top: calc(100% + .00rem);  // 间距
               left: 0;
@@ -435,23 +431,23 @@ function submitForm() {
               box-shadow: 0 .0533rem .1333rem rgba(0, 0, 0, 0.1);
               overflow: hidden;
               z-index: 10;
-              .arrival-dropdown-item {
+              .departure-dropdown-item {
                 border-bottom: .0133rem solid #ddd;
                 padding: .15rem .2rem;
                 cursor: pointer;
               }
-              .arrival-dropdown-item:hover {
+              .departure-dropdown-item:hover {
                 background: #eee;
               }
             }
           }
         }
         
-        .tips-not-sure-transport {
+        .tips-not-sure-departure {
           margin-top: .2rem;
           width: 4.1733rem;
           height: .7733rem;
-          background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/tips-not-sure-transport.png") top center no-repeat;
+          background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/tips-not-sure.png") top center no-repeat;
           background-size: 100% 100%;
         }
 
@@ -473,7 +469,7 @@ function submitForm() {
           .label-pickup-required {
             width: 4.36rem;
             height: .2733rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/label-pickup-required.png") top center no-repeat;
+            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/label-dropoff-required.png") top center no-repeat;
             background-size: 100% 100%;
           }
           .radio-group {
@@ -523,13 +519,13 @@ function submitForm() {
               .radio-label-yes {
                 width: .6066rem;
                 height: .1733rem;
-                background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/label-yes.png") top center no-repeat;
+                background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/label-yes.png") top center no-repeat;
                 background-size: 100% 100%;
               }
               .radio-label-no {
                 width: .56rem;
                 height: .1666rem;
-                background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/label-no.png") top center no-repeat;
+                background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/label-no.png") top center no-repeat;
                 background-size: 100% 100%;
               }
             }
@@ -549,10 +545,10 @@ function submitForm() {
           //   font-weight: 500;
           //   color: #6c727f;
           // }
-          .label-arrival-time {
-            width: 4.06rem;
-            height: .2066rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/label-arrival-time.png") top center no-repeat;
+          .label-departure-time {
+            width: 4.3733rem;
+            height: .2766rem;
+            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/label-departure-time.png") top center no-repeat;
             background-size: 100% 100%;
           }
           .time-container {
@@ -641,36 +637,19 @@ function submitForm() {
             margin-top: .2rem;
             width: 3.1666rem;
             height: .3266rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/tips-time-format.png") top center no-repeat;
+            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/tips-time-format.png") top center no-repeat;
+            background-size: 100% 100%;
+          }
+          .tips-service-limit {
+            margin-top: .2rem;
+            width: 4.2133rem;
+            height: 1.1133rem;
+            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/tips-service-limit.png") top center no-repeat;
             background-size: 100% 100%;
           }
           
         }
 
-        .text-item {
-          margin-top: .2rem;
-          display: flex;
-          flex-direction: column;
-          // .label {
-          //   font-family: "NotoSansSC-Bold";
-          //   font-weight: 500;
-          //   color: #6c727f;
-          // }
-          .label-transport-number {
-            width: 4.36rem;
-            height: .2733rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/label-transport-number.png") top center no-repeat;
-            background-size: 100% 100%;
-          }
-          input {
-              margin-top: .08rem;
-              width: 4.36rem;
-              height: .6133rem;
-              border: .016rem solid #E0E0E0;
-              border-radius: .1781rem;
-              padding: .1781rem .2036rem;
-          }
-        }
         .btn-container {
           margin-top: .5rem;
           width: 4.36rem;
@@ -683,7 +662,7 @@ function submitForm() {
           .arrow-left {
             width: .66rem;
             height: .66rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/arrow-left.png") top center no-repeat;
+            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/arrow-left.png") top center no-repeat;
             background-size: 100% 100%;
           }
           .submit {
@@ -696,7 +675,7 @@ function submitForm() {
             .arrow-right {
               width: .66rem;
               height: .66rem;
-              background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/arrow-right.png") top center no-repeat;
+              background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/arrow-right.png") top center no-repeat;
               background-size: 100% 100%;
             }
           }
