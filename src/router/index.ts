@@ -6,6 +6,7 @@ import Profile from '../views/Profile/index.vue'    // 完善个人信息
 import Arrival from '../views/Arrival/index.vue'    // 行程信息-抵达
 import Departure from '../views/Departure/index.vue'  // 行程信息-返程
 import Hotel from '../views/Hotel/index.vue'  // 酒店信息
+import Plan from '../views/Plan/index.vue'  // 活动行程安排
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/hotel',
       name: 'hotel',
       component: Hotel
+    },
+    { // 第五步：活动行程安排
+      path: '/plan',
+      name: 'plan',
+      component: Plan
     },
   ]
 })
