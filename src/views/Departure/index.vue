@@ -107,45 +107,45 @@ onUnmounted(() => {
 const form = ref({
     departure_date: '',
     departure_transport: '',
-    pickup_required: '',
-    transport_number: '',
+    dropoff_required: '',
+    // transport_number: '',
     departure_hour: null as number | null,  // 既保证类型是数字类型，又保证placerholder可以正常显示
     departure_min: null as number | null,
 });
 // 表单提交
 function submitForm() {
   if (!form.value.departure_date) {
-    Toast('请选择抵达日期');
+    Toast('请选择返程日期');
     return;
   }
   if (!form.value.departure_transport) {
-    Toast('请选择抵达方式');
+    Toast('请选择返程方式');
     return;
   }
   if (form.value.departure_transport == '大理凤仪机场' || form.value.departure_transport == '大理站' ) {
-    if (!form.value.pickup_required) {
+    if (!form.value.dropoff_required) {
       Toast('请选择是否需要接机/接车');
       return;
     }
-    if (!form.value.transport_number) {
-      Toast('请输入航班号或车次');
-      return;
-    }
+    // if (!form.value.transport_number) {
+    //   Toast('请输入航班号或车次');
+    //   return;
+    // }
     if (!form.value.departure_hour || !form.value.departure_min) {
-      Toast('请输入抵达时间');
+      Toast('请输入返程时间');
       return;
     }
     if (form.value.departure_hour < 0 || form.value.departure_hour > 23) {
-      Toast('请调整抵达小时');
+      Toast('请调整返程小时');
       return;
     }
     if (form.value.departure_min < 0 || form.value.departure_min > 59) {
-      Toast('请调整抵达分钟');
+      Toast('请调整返程分钟');
       return;
     }
   } else {
-    form.value.pickup_required = '';
-    form.value.transport_number = '';
+    form.value.dropoff_required = '';
+    // form.value.transport_number = '';
     form.value.departure_hour = 0;
     form.value.departure_min = 0;
   }
@@ -168,7 +168,7 @@ function submitForm() {
     <div class="form-container">
       <form @submit.prevent="submitForm" class="form">
         <div class="date-select-item">
-            <!-- <label>抵达日期 * Departure Date</label> -->
+            <!-- <label>返程日期 * Departure Date</label> -->
             <div class="label-departure-date"></div>
             <div class="date-select-box">
               <!-- 按钮 -->
@@ -192,7 +192,7 @@ function submitForm() {
         </div>
 
         <div class="departure-select-item">
-            <!-- <label>抵达方式 * Departure Transport</label> -->
+            <!-- <label>返程方式 * Departure Transport</label> -->
             <div class="label-departure-transport"></div>
             <div class="departure-select-box">
               <!-- 按钮 -->
@@ -222,13 +222,13 @@ function submitForm() {
             <div class="label-pickup-required"></div>
             <div class="radio-group">
               <label class="radio-item">
-                <input type="radio" value="是" v-model="form.pickup_required">
+                <input type="radio" value="是" v-model="form.dropoff_required">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">是 (Yes)</div> -->
                 <div class="radio-label-yes"></div>
               </label>
               <label class="radio-item">
-                <input type="radio" value="否" v-model="form.pickup_required">
+                <input type="radio" value="否" v-model="form.dropoff_required">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">否 (No)</div> -->
                  <div class="radio-label-no"></div>

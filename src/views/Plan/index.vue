@@ -538,7 +538,7 @@ function submitForm() {
           .tick {
               width: .68rem;
               height: .68rem;
-              background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png") top center no-repeat;
+              background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/tick.png") top center no-repeat;
               background-size: 100% 100%;
           }
         }
