@@ -85,7 +85,7 @@ function backToIndex() {
     max-width: 1280px;
     // height: 100vh;
     // overflow: hidden;
-    background-color: #F5F7F6;
+    // background-color: #F5F7F6;
     // 顶部区域
     .head-container {
       width: 100%;

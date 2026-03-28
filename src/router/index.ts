@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// lego cny
+// 认证与个人信息填写相关
 import Index from '../views/Index/index.vue'
 import Register from '../views/Register/index.vue'  // 研讨会注册
 import Profile from '../views/Profile/index.vue'    // 完善个人信息
@@ -9,6 +9,8 @@ import Hotel from '../views/Hotel/index.vue'  // 酒店信息
 import Plan from '../views/Plan/index.vue'  // 活动行程安排
 import Preview from '../views/Preview/index.vue'  // 信息预览
 import Success from '../views/Success/index.vue'  // 信息提交成功
+
+import Home from '../views/Home/index.vue'  // 信息提交成功
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +64,11 @@ const router = createRouter({
       path: '/success',
       name: 'success',
       component: Success
+    },
+    { // Home页面
+      path: '/home',
+      name: 'home',
+      component: Home
     },
   ]
 })
