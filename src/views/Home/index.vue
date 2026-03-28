@@ -68,9 +68,8 @@ function clickMenuBtn( menuNum:number) {
 }
 
 
-
 // 信息完善弹窗
-const isPopWindow = ref(false);
+const isPopWindow = ref(true);
 function editProfile () {
     console.log("跳转到信息补充页面");
     // undo
@@ -79,6 +78,28 @@ function closePopWindow() {
     console.log("关闭信息补充页面");
     // 2. 关闭弹窗
     isPopWindow.value = false;
+}
+const isYesBtnPressed = ref(false);
+const isNoBtnPressed = ref(false);
+// yes按钮按下的事件
+function onYesBtnTouchStart() {
+    isYesBtnPressed.value = true;
+    console.log("按钮按下");
+}
+// yes按钮松开的事件
+function onYesBtnTouchEnd() {
+    isYesBtnPressed.value = false;
+    console.log("按钮松开");
+}
+// no按钮按下的事件
+function onNoBtnTouchStart() {
+    isNoBtnPressed.value = true;
+    console.log("按钮按下");
+}
+// no按钮松开的事件
+function onNoBtnTouchEnd() {
+    isNoBtnPressed.value = false;
+    console.log("按钮松开");
 }
 
 // 表单信息
@@ -190,16 +211,16 @@ function submitForm() {
         </div>
 
         <!-- 弹窗 -->
-        <div v-if="isPopWindow" class="pop-window-container">
-            <div class="pop-window">
-                <div class="text-content">
-                    <div class="scroll">
-                        <div class="ruler"></div>
-                    </div>
+        <div v-if="isPopWindow" class="pop-window-container" @click="closePopWindow">
+            <div class="pop-window" @click.stop>
+                <div class="tips-finish">
                 </div>
-                <div class="text-btn" @click="closePopWindow">
-                    <div class="text-btn-tick"></div>
+                <div class="btn-container">
+                    <!-- touchstart和touchend只是touch事件，只用于移动端 -->
+                    <div class="yes-btn" :class="{press: isYesBtnPressed}" @touchstart="onYesBtnTouchStart" @touchend="onYesBtnTouchEnd"></div>
+                    <div class="no-btn" :class="{press: isNoBtnPressed}" @touchstart="onNoBtnTouchStart" @touchend="onNoBtnTouchEnd" @click="closePopWindow"></div>
                 </div>
+                
             </div>
         </div>
 
@@ -295,53 +316,49 @@ function submitForm() {
         justify-content: center;
         align-items: center;
         .pop-window {
-            width: 4.3893rem;
-            height: 7.0992rem;
-            border-radius: .2036rem;
-            background-color: #FFFFFF;
-            .text-content {
-                margin-top: .2897rem;
+            width: 3.88rem;
+            height: 2.1867rem;
+            border-radius: .2533rem;
+            background-color: #FFF;
+            .tips-finish {
+                margin-top: .3rem;
                 margin-left: 50%;
-                padding-top: .3463rem;
                 transform: translateX(-50%);
-                width: 3.7788rem;
-                height: 5.4072rem;
-                border: .0085rem solid #E6E8E5;
-                border-radius: .1781rem;
-                overflow: hidden;
-                .scroll {
-                    height: 100%;
-                    overflow-y: auto;
-                    -webkit-overflow-scrolling: touch;  // 微信 + ios滚动ww优化
-                    display: flex;
-                    justify-content: center;
-                    .ruler {
-                        margin-top: -.3463rem;
-                        width: 3.16rem;
-                        height: 23.14rem;
-                        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/ruler.png") top center no-repeat;
-                        background-size: 100% 100%;
-                        margin-bottom: .4rem;
-                    }
-                }
-
+                width: 3.2666rem;
+                height: .7866rem;;
+                background: url("https://www.1024.art/projects/static/vale2026rsvp/images/home/tips-finish.png") top center no-repeat;
+                background-size: 100% 100%;
             }
-            .text-btn {
-                margin-top: .3463rem;
+            .btn-container {
+                margin-top: .2rem;
                 margin-left: 50%;
                 transform: translateX(-50%);
-                width: 3.1807rem;
-                height: .7125rem;
-                border: 0;
-                border-radius: .1781rem;
-                background-color: #007E7A;
+                width: 90%;
+                // background-color: pink;
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                .text-btn-tick {
-                    width: .68rem;
-                    height: .68rem;
-                    background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png") top center no-repeat;
+                justify-content: space-between;
+                .yes-btn {
+                    width: 1.7466rem;
+                    height: .8rem;;
+                    background: url("https://www.1024.art/projects/static/vale2026rsvp/images/home/btn-yes-default.png") top center no-repeat;
+                    background-size: 100% 100%;
+                }
+                .yes-btn.press {
+                    width: 1.7466rem;
+                    height: .8rem;;
+                    background: url("https://www.1024.art/projects/static/vale2026rsvp/images/home/btn-yes-pressed.png") top center no-repeat;
+                    background-size: 100% 100%;
+                }
+                .no-btn {
+                    width: 1.7466rem;
+                    height: .8rem;;
+                    background: url("https://www.1024.art/projects/static/vale2026rsvp/images/home/btn-no-default.png") top center no-repeat;
+                    background-size: 100% 100%;
+                }
+                .no-btn.press {
+                    width: 1.7466rem;
+                    height: .8rem;;
+                    background: url("https://www.1024.art/projects/static/vale2026rsvp/images/home/btn-no-pressed.png") top center no-repeat;
                     background-size: 100% 100%;
                 }
             }
