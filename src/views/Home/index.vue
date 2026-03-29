@@ -69,7 +69,7 @@ function clickMenuBtn( menuNum:number) {
 
 
 // 信息完善弹窗
-const isPopWindow = ref(true);
+const isPopWindow = ref(false);
 function editProfile () {
     console.log("跳转到信息补充页面");
     // undo
@@ -184,7 +184,7 @@ function submitForm() {
         <!-- 菜单列表 -->
         <div class="menu-list-container">
             <div class="menu-item" @click="clickMenuBtn(1)">
-                <img src="https://www.1024.art/projects/static/vale2026rsvp/images/home/agenda.png" alt="">
+                <img src="https://www.1024.art/projects/static/vale2026rsvp/images/home/profile.png" alt="">
             </div>
             <div class="menu-item" @click="clickMenuBtn(2)">
                 <img src="https://www.1024.art/projects/static/vale2026rsvp/images/home/agenda.png" alt="">

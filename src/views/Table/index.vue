@@ -1,0 +1,256 @@
+<!-- 工作人员备用扫码打卡 -->
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import { scanCheckAPI } from '@/apis/user'
+import { Toast } from 'vant'
+import { useRouter } from 'vue-router'
+
+
+// 监测手机宽高比进行提醒
+onMounted(() => {
+  if (window.innerWidth > window.innerHeight) {
+    Toast({
+      message: "请在手机或者竖屏下使用",
+      duration: 3000
+    })
+  }
+});
+
+// 座位定义
+const tableNum = ref(20);  // 座位号
+const tablePosition = ref('back'); // front为前，left为左，right为右，back为后
+// 根据座位号计算区域
+function calPostion() {
+  if (tableNum.value <= 3) {  // 前排
+    tablePosition.value = "front";
+  } else if (tableNum.value <= 18) { // 后排
+    tablePosition.value = "back";
+  } else if (tableNum.value <= 31) {  // 左排
+    tablePosition.value = "left";
+  } else if (tableNum.value <= 45) {  // 右排
+    tablePosition.value = "right"  
+  } else {
+    console.log("座位号错误");
+  }
+}
+onMounted(() => {
+  calPostion();
+})
+
+// 按钮事件
+const isBtnPressed = ref(false);
+// yes按钮按下的事件
+function onBtnTouchStart() {
+    isBtnPressed.value = true;
+    console.log("按钮按下");
+}
+// yes按钮松开的事件
+function onBtnTouchEnd() {
+    isBtnPressed.value = false;
+    console.log("按钮松开");
+}
+// 跳转到首页
+const router = useRouter();
+function backHome() {
+  router.push('/home')
+}
+
+// 表单提交
+function backToIndex() {
+  // undo
+  
+  console.log('返回主页');
+}
+
+</script>
+
+<template>
+  <div class="page-body">
+    <!-- 头部区域 -->
+    <div class="head-container">
+      <img src="https://www.1024.art/projects/static/vale2026rsvp/images/table/header.jpg" class="head-img"></img>
+    </div>
+    
+    <!-- 桌号显示 -->
+    <div class="table-num-container">
+      <div class="table-num-title"></div>
+      <div class="num-container">
+        <div class="table-num">{{ tableNum }}</div>
+      </div>
+    </div>
+
+    <!-- 位置提示 -->
+    <div class="table-tips">
+      <div v-if="tablePosition=='left'" class="tips-left"></div>
+      <div v-if="tablePosition=='right'" class="tips-right"></div>
+      <div v-if="tablePosition=='front'" class="tips-front"></div>
+      <div v-if="tablePosition=='back'" class="tips-back"></div>
+    </div>
+
+    <!-- 座位区域 -->
+    <div class="table-position">
+      <div v-if="tablePosition=='left'" class="position-left"></div>
+      <div v-if="tablePosition=='right'" class="position-right"></div>
+      <div v-if="tablePosition=='front'" class="position-front"></div>
+      <div v-if="tablePosition=='back'" class="position-back"></div>
+    </div>
+                    
+    <!-- 返回主页按钮 -->
+    <div class="home-btn" :class="{press: isBtnPressed}" @touchstart="onBtnTouchStart" @touchend="onBtnTouchEnd" @click="backHome"></div>
+
+
+  </div>
+</template>
+
+
+<style lang="scss" scoped>
+.page-body {
+    // 通用页面
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    max-width: 1280px;
+    // height: 100vh;
+    // overflow: hidden;
+    // background-color: #F5F7F6;
+    // 顶部区域
+    .head-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .head-img{
+        width: 100%;
+      }
+    }
+    // 桌号显示
+    .table-num-container {
+      position: relative;
+      margin-top: .4rem;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      width: 88%;
+      // background-color: pink;
+      .table-num-title {
+        width: 4.36rem;
+        height: .5666rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/table-title.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .num-container {
+        position: absolute;
+        top: -.15rem;
+        left : 1.5rem;
+        width: 2.0266rem;
+        height: .7733rem;
+        border: .0266rem solid #E0E0E0;
+        border-radius: .1781rem;
+        box-shadow: 0 0 .1333rem rgba(0,0,0,.05);
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .table-num {
+          color: #E8A713;
+          font-weight: 500;
+          font-size: .48rem;
+
+        }
+      }
+    }
+    // 位置提示
+    .table-tips {
+      margin-top: .7rem;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      height: 2.5rem;
+      // background-color: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .tips-left {
+        width: 1.88rem;
+        height: 2.4266rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/tips-left.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .tips-right {
+        width: 1.7466rem;
+        height: 2.4rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/tips-right.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .tips-front {
+        width: 2.08rem;
+        height: .7733rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/tips-front.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .tips-back {
+        width: 3.2666rem;
+        height: 2.4rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/tips-back.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+    // 座位区域
+    .table-position {
+      margin-top: .7rem;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 2.5rem;
+      // background-color: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .position-left {
+        width: 4.7066rem;
+        height: 2.8666rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/position-left.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .position-right {
+        width: 4.7066rem;
+        height: 2.8666rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/position-right.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .position-front {
+        width: 4.7066rem;
+        height: 2.8666rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/position-front.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .position-back {
+        width: 4.7066rem;
+        height: 2.8666rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/position-back.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+    // 返回主页按钮
+    .home-btn {
+      margin-top: .7rem;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      width: 4.36rem;
+      height: .72rem;;
+      background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/home-default.png") top center no-repeat;
+      background-size: 100% 100%;
+    }
+    .home-btn.press {
+      width: 4.36rem;
+      height: .72rem;;
+      background: url("https://www.1024.art/projects/static/vale2026rsvp/images/table/home-pressed.png") top center no-repeat;
+      background-size: 100% 100%;
+    }
+
+
+ 
+    
+
+
+}
+</style>
