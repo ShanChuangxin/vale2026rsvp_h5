@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 // import { wechatScan } from '@/utils/wechatLibrary';
 import { getTodayPrizeInfoAPI, checkPrizeAPI } from '@/apis/user'
 import { Toast } from 'vant'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { PrizeKey, PrizeItem } from '@/types/user';
 // 定义页面
 // 城市信息
@@ -56,6 +56,7 @@ onMounted(() => {
 // 某些菜单未开放控制
 const isClose = ref(false);
 
+const router = useRouter();
 // 菜单按钮跳转：1为个人信息，2为日程安排，3为晚宴桌号，4为班车安排，5为酒店导览，6为温馨贴士，7为参会照片
 function clickMenuBtn( menuNum:number) {
     // 1. 判断是否到开放日了
@@ -65,6 +66,30 @@ function clickMenuBtn( menuNum:number) {
     }
     // 2. 跳转
     console.log("跳转到：" + menuNum.toString());
+    switch (menuNum) {
+        case 1: 
+            router.push('/profile'); 
+            console.log("跳转到个人信息页面");
+            break;
+        case 2: router.push('/agenda');
+            console.log("跳转到日程安排页面");
+            break;
+        case 3: router.push('/table');
+            console.log("跳转到晚宴桌号页面");
+            break;
+        case 4: router.push('/service');
+            console.log("跳转到班车安排页面");
+            break;
+        case 5: router.push('/guide');
+            console.log("跳转到酒店导览页面");
+            break;
+        case 6: router.push('/tips');
+            console.log("跳转到日程安排页面");
+            break;
+        case 7: Toast("等待获取参会照片链接..");
+            console.log("跳转到参会照片页面");
+            break;
+    }
 }
 
 

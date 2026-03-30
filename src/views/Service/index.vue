@@ -32,16 +32,12 @@ function onBtnTouchEnd() {
 }
 // 跳转到首页
 const router = useRouter();
+// 表单提交
 function backHome() {
   router.push('/home')
 }
 
-// 表单提交
-function backToIndex() {
-  // undo
-  
-  console.log('返回主页');
-}
+
 
 </script>
 
@@ -50,6 +46,7 @@ function backToIndex() {
     <!-- 头部区域 -->
     <div class="head-container">
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/service/header.jpg" class="head-img"></img>
+      <div class="back-home" @click="backHome"></div>
     </div>
     
     <div class="service-body">
@@ -85,6 +82,14 @@ function backToIndex() {
       justify-content: center;
       .head-img{
         width: 100%;
+      }
+      .back-home {
+        position: absolute;
+        top: .26rem;
+        right: .26rem;
+        width: .84rem;
+        height: .4rem;
+        // background-color: pink;
       }
     }
 
