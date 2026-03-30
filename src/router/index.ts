@@ -14,6 +14,7 @@ import Home from '../views/Home/index.vue'  // 信息提交成功
 import Table from '../views/Table/index.vue'  // 晚宴桌号
 import Tips from '../views/Tips/index.vue'  // 温馨提示
 import Agenda from '../views/Agenda/index.vue'  // 日程安排
+import Guide from '../views/Guide/index.vue'  // 日程安排
 
 
 const router = createRouter({
@@ -49,7 +50,7 @@ const router = createRouter({
       name: 'departure',
       component: Departure
     },
-    { // 第四步：行程信息-返程
+    { // 第四步：酒店预订信息
       path: '/hotel',
       name: 'hotel',
       component: Hotel
@@ -88,6 +89,11 @@ const router = createRouter({
       path: '/agenda',
       name: 'agenda',
       component: Agenda
+    },
+    { // 酒店导览
+      path: '/guide',
+      name: 'guide',
+      component: Guide
     },
   ]
 })
