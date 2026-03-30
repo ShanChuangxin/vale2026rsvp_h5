@@ -13,6 +13,7 @@ import Success from '../views/Success/index.vue'  // 信息提交成功
 import Home from '../views/Home/index.vue'  // 信息提交成功
 import Table from '../views/Table/index.vue'  // 晚宴桌号
 import Tips from '../views/Tips/index.vue'  // 温馨提示
+import Agenda from '../views/Agenda/index.vue'  // 日程安排
 
 
 const router = createRouter({
@@ -82,6 +83,11 @@ const router = createRouter({
       path: '/tips',
       name: 'tips',
       component: Tips
+    },
+    { // 日程安排
+      path: '/agenda',
+      name: 'agenda',
+      component: Agenda
     },
   ]
 })
