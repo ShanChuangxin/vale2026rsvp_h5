@@ -34,7 +34,7 @@ function onBtnTouchEnd() {
 const router = useRouter();
 // 返回主页
 function backHome() {
-  router.push('/home')
+  router.push('/home');
 }
 
 

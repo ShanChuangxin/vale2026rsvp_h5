@@ -3,6 +3,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { scanCheckAPI } from '@/apis/user'
 import { Toast } from 'vant'
+import { useRouter } from 'vue-router'
 
 
 // 监测手机宽高比进行提醒
@@ -103,6 +104,15 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
 })
 
+
+// 页面跳转
+const router = useRouter();
+
+// 上一步：行程信息-抵达页面
+function toArrivalPage() {
+  router.push('/arrival')
+}
+
 // 表单信息
 const form = ref({
     departure_date: '',
@@ -152,6 +162,13 @@ function submitForm() {
   
   
   console.log('提交的数据:', form.value);
+
+
+  // 提交服务器
+  // undo
+
+  // 跳转到酒店信息页面
+  router.push('/hotel');
 }
 
 
@@ -271,7 +288,7 @@ function submitForm() {
         </div>
 
         <div class="btn-container">
-          <div class="arrow-left"></div>
+          <div class="arrow-left" @click="toArrivalPage"></div>
           <button class="submit" type="submit">
               <div class="arrow-right"></div>
               <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png" alt=""> -->

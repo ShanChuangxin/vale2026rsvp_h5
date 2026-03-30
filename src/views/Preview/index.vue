@@ -3,6 +3,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { scanCheckAPI } from '@/apis/user'
 import { Toast } from 'vant'
+import { useRouter } from 'vue-router'
 
 
 // 监测手机宽高比进行提醒
@@ -47,17 +48,23 @@ const user = ref({
   remarks: 'xxx'
 })
 
-// 返回编辑页面
-function backToEdit() {
-  // undo
-  console.log("返回编辑");
+// 页面跳转
+const router = useRouter();
+// 上一步：活动行程安排页面
+function toPlanPage() {
+  router.push("/plan")
 }
 
 // 表单提交
 function makesureInfo() {
-  // undo
   
   console.log('确认信息');
+
+  // 提交服务器
+  // undo
+
+  // 跳转到提交成功页面
+  router.push('/success');
 }
 
 </script>
@@ -181,7 +188,7 @@ function makesureInfo() {
       </div>
     </div>
     <!-- 返回编辑按钮 -->
-    <div class="edit-btn" @click="backToEdit"></div>
+    <div class="edit-btn" @click="toPlanPage"></div>
     <!-- 保存按钮 -->
     <div class="btn-tick" @click="makesureInfo">
       <div class="tick"></div>

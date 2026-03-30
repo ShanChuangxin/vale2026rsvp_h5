@@ -3,6 +3,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { scanCheckAPI } from '@/apis/user'
 import { Toast } from 'vant'
+import { useRouter } from 'vue-router'
 
 
 // 监测手机宽高比进行提醒
@@ -14,6 +15,15 @@ onMounted(() => {
     })
   }
 });
+
+
+// 页面跳转
+const router = useRouter();
+
+// 上一步：酒店信息
+function toHotelPage() {
+  router.push('/hotel')
+}
 
 
 // 表单信息
@@ -45,6 +55,12 @@ function submitForm() {
   
   
   console.log('提交的数据:', form.value);
+
+  // 提交服务器
+  // undo
+
+  // 跳转到信息预览页面
+  router.push('/preview');
 }
 
 
@@ -142,7 +158,7 @@ function submitForm() {
         </div>
 
         <div class="btn-container">
-          <div class="arrow-left"></div>
+          <div class="arrow-left" @click="toHotelPage"></div>
         </div>
         <button class="submit" type="submit">
           <div class="tick"></div>

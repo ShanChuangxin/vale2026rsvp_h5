@@ -3,6 +3,7 @@
 import { ref, onMounted } from 'vue'
 import { scanCheckAPI } from '@/apis/user'
 import { Toast } from 'vant'
+import { useRouter } from 'vue-router'
 
 // 监测手机宽高比进行提醒
 onMounted(() => {
@@ -24,6 +25,11 @@ const form = ref({
     job_title: '',
     email: '',
 });
+
+
+// 页面跳转
+const router = useRouter();
+
 // 表单提交
 function submitForm() {
   if (!form.value.name) {
@@ -59,6 +65,14 @@ function submitForm() {
   }
   
   console.log('提交的数据:', form.value);
+
+
+  // 提交服务器
+  // undo
+
+  // 跳转到行程信息-抵达页面
+  router.push('/arrival');
+
 }
 
 

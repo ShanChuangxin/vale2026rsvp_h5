@@ -3,6 +3,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { scanCheckAPI } from '@/apis/user'
 import { Toast } from 'vant'
+import { useRouter } from 'vue-router'
 
 
 // 监测手机宽高比进行提醒
@@ -48,9 +49,11 @@ const user = ref({
 })
 
 
-// 表单提交
-function backToIndex() {
-  // undo
+// 页面跳转
+const router = useRouter();
+// 返回主页
+function backHome() {
+  router.push('/home')
   
   console.log('返回主页');
 }
@@ -62,13 +65,14 @@ function backToIndex() {
     <!-- 头部区域 -->
     <div class="head-container">
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/success/header.jpg" class="head-img"></img>
+      <div class="back-home" @click="backHome"></div>
     </div>
     
     <!-- 提交成功提示 -->
     <div class="tips-submit-success"></div>
 
     <!-- 返回主页按钮 -->
-    <div class="btn-home" @click="backToIndex">
+    <div class="btn-home" @click="backHome">
       <div class="home"></div>
     </div>
 
@@ -94,6 +98,14 @@ function backToIndex() {
       justify-content: center;
       .head-img{
         width: 100%;
+      }
+      .back-home {
+        position: absolute;
+        top: .26rem;
+        right: .26rem;
+        width: .84rem;
+        height: .4rem;
+        // background-color: pink;
       }
     }
 

@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 // import { wechatScan } from '@/utils/wechatLibrary';
 import { getTodayPrizeInfoAPI, checkPrizeAPI } from '@/apis/user'
 import { Toast } from 'vant'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { PrizeKey, PrizeItem } from '@/types/user';
 // 定义页面
 // 城市信息
@@ -133,6 +133,9 @@ function sendCode() {
   }, 1000);
 }
 
+// 页面跳转
+const router = useRouter();
+
 // 表单提交
 function submitForm() {
   if (!form.value.invitation_code) {
@@ -154,6 +157,12 @@ function submitForm() {
   
   
   console.log('提交的数据:', form.value);
+  
+  // 提交服务器
+  // undo
+
+  // 跳转到完善个人信息页面
+  router.push('/profile');
 }
 
 </script>
