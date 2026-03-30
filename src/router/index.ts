@@ -15,6 +15,7 @@ import Table from '../views/Table/index.vue'  // 晚宴桌号
 import Tips from '../views/Tips/index.vue'  // 温馨提示
 import Agenda from '../views/Agenda/index.vue'  // 日程安排
 import Guide from '../views/Guide/index.vue'  // 日程安排
+import Service from '../views/Service/index.vue'  // 日程安排
 
 
 const router = createRouter({
@@ -94,6 +95,11 @@ const router = createRouter({
       path: '/guide',
       name: 'guide',
       component: Guide
+    },
+    { // 接送服务及安排
+      path: '/service',
+      name: 'service',
+      component: Service
     },
   ]
 })
