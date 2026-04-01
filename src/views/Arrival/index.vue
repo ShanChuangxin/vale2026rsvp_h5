@@ -3,6 +3,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
+import { useUserStore } from "@/stores/user";
+import { updateArrivalAPI } from '@/apis/user';
 
 
 // 监测手机宽高比进行提醒
@@ -114,6 +116,7 @@ function toProfilePage() {
 
 // 表单信息
 const form = ref({
+    user_id: '',
     arrival_date: '',
     arrival_transport: '',
     pickup_required: '',
@@ -121,8 +124,27 @@ const form = ref({
     arrival_hour: null as number | null,  // 既保证类型是数字类型，又保证placerholder可以正常显示
     arrival_min: null as number | null,
 });
+// 同步显示已填充信息
+const userStore = useUserStore();
+// 自动填充信息
+onMounted(() => {
+  console.log(userStore.userInfo);
+  // 表单信息
+  form.value.user_id = userStore.userInfo.user_id;
+  form.value.arrival_date = userStore.userInfo.arrival_date;
+  form.value.arrival_transport = userStore.userInfo.arrival_transport;
+  form.value.pickup_required = userStore.userInfo.pickup_required;
+  form.value.transport_number = userStore.userInfo.transport_number;
+  form.value.arrival_hour = userStore.userInfo.arrival_hour;
+  form.value.arrival_min = userStore.userInfo.arrival_min;
+  // 页面信息
+  dateSelected.value = userStore.userInfo.arrival_date;
+  arrivalSelected.value = userStore.userInfo.arrival_transport;
+})
+
+
 // 表单提交
-function submitForm() {
+async function submitForm() {
   if (!form.value.arrival_date) {
     Toast('请选择抵达日期');
     return;
@@ -140,7 +162,7 @@ function submitForm() {
       Toast('请输入航班号或车次');
       return;
     }
-    if (!form.value.arrival_hour || !form.value.arrival_min) {
+    if (form.value.arrival_hour === null || form.value.arrival_min === null) {
       Toast('请输入抵达时间');
       return;
     }
@@ -163,10 +185,18 @@ function submitForm() {
   console.log('提交的数据:', form.value);
 
   // 提交服务器
-  // undo
-
-  // 跳转到行程信息-返程页面
-  router.push('/departure');
+  const res = await updateArrivalAPI(form.value);
+  console.log("到达结果：", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转到返程页面填写");
+    // 跳转到行程信息-抵达页面
+    router.push('/departure');
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+  }
 }
 
 
@@ -237,13 +267,13 @@ function submitForm() {
             <div class="label-pickup-required"></div>
             <div class="radio-group">
               <label class="radio-item">
-                <input type="radio" value="是" v-model="form.pickup_required">
+                <input type="radio" value="是 / Yes" v-model="form.pickup_required">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">是 (Yes)</div> -->
                 <div class="radio-label-yes"></div>
               </label>
               <label class="radio-item">
-                <input type="radio" value="否" v-model="form.pickup_required">
+                <input type="radio" value="否 / No" v-model="form.pickup_required">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">否 (No)</div> -->
                 <div class="radio-label-no"></div>

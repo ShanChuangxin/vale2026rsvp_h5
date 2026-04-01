@@ -28,7 +28,7 @@ const form = ref({
     email: '',
 });
 
-// 同步显示公司信息
+// 同步显示已填充信息
 const userStore = useUserStore();
 // 自动填充信息
 onMounted(() => {

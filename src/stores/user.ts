@@ -10,6 +10,8 @@ export const useUserStore = defineStore('user', {
     // 设置全部用户信息（覆盖）
     setUserInfo(data: UserInfo) {
       this.userInfo = data
+      console.log("user_info更新进LocalStorage!");
+      console.log(data);
     },
 
     // 更新部分字段（推荐用这个）

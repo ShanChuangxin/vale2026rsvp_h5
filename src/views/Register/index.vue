@@ -142,6 +142,7 @@ async function submitForm() {
   console.log("请求注册的结果为：", res);
   if (res.data.errcode == 0) {
     console.log("注册成功");
+    console.log(res.data.data.user_info);
     // 1. 本地记录存储
     userStore.setUserInfo(res.data.data.user_info);
 

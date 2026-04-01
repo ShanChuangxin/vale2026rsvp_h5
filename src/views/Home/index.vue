@@ -2,46 +2,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 // import { wechatScan } from '@/utils/wechatLibrary';
-import { getTodayPrizeInfoAPI, checkPrizeAPI } from '@/apis/user'
+import { getUserInfoAPI } from '@/apis/user'
 import { Toast } from 'vant'
-import { useRoute, useRouter } from 'vue-router'
-import { PrizeKey, PrizeItem } from '@/types/user';
-// 定义页面
-// 城市信息
-// 通过url参数获取当前城市
-const route = useRoute();
-
-// 定义需要显示数据的响应式变量
-
-// 获取该城市今天奖品信息
-// const getTodayPrizeInfo = async () => {
-//     // 1. 获取城市参数
-//     if (route.query.city) {
-//         console.log(route.query.city);
-//         const city = route.query.city as string;
-//         if (cityList.includes(city)) {
-//             currentCity.value = city;   // 更新城市参数
-//             // 2. 拉取城市核销信息
-//             const res = await getTodayPrizeInfoAPI({city: currentCity.value});
-//             console.log("拉取到的今日的奖品信息为：", res);
-//             if (res.data.errcode == 0){
-//                 PRIZE_KEYS.forEach(key => {
-//                     prizeInfo.value[key].check_count = res.data.data.today_info[key]?.check_count ?? 0; 
-//                     prizeInfo.value[key].issued_count = res.data.data.today_info[key]?.issued_count ?? 0;
-//                 })
-//             } else {
-//                 console.log("拉取今日奖品信息失败：", res.data.errmsg);
-//             }
-//         } else {
-//             Toast("城市参数错误");
-//             return;
-//         }
-//     } else {
-//         Toast("缺少城市参数");
-//         return;
-//     }
-// }
-// onMounted(() => getTodayPrizeInfo())
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 // 监测手机宽高比进行提醒
 onMounted(() => {
@@ -52,6 +16,25 @@ onMounted(() => {
     })
   }
 });
+
+// 加载用户信息
+const userStore = useUserStore();
+onMounted(async () => {
+    if (userStore.userInfo.user_id) {
+        const res = await getUserInfoAPI({user_id: userStore.userInfo.user_id})
+        console.log("获取到的用户信息为：", res);
+        if (res.data.errcode == 0) {
+            // 先更新进本地存储
+            userStore.setUserInfo(res.data.data.user_info);
+        } else {
+            console.log(res.data.errmsg);
+            Toast("网络异常，请稍后重试");
+        }
+    } else {
+        // Toast("请重新填写信息");
+        router.push('/register');
+    }
+})
 
 // 某些菜单未开放控制
 const isClose = ref(false);

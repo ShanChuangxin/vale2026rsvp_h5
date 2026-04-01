@@ -29,8 +29,8 @@ import type { UserInfo, RegisterResult, StampStatus, RequestDraw, ResposeDraw, S
 
 // 用户H5接口
 // 获取用户信息
-export const getUserInfoAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
-    return httpInstance.post<ResponseType<UserInfo>>('get_user_info', data);
+export const getUserInfoAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<{ user_info: UserInfo }>>> => {
+    return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('get_user_info', data);
 }
 // 获取短信验证码
 export const getVerificationCodeAPI = (data: { mobile_number: string }): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
@@ -43,6 +43,10 @@ export const registerAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<
 // 更新个人信息
 export const updateProfileAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
     return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('update_profile', data);
+}
+// 更新抵达信息
+export const updateArrivalAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
+    return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('update_arrival', data);
 }
 
 
