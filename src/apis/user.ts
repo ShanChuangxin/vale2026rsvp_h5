@@ -2,7 +2,7 @@ import { httpInstance, wechatHttp } from "../utils/http"
 import type { ResponseType } from "@/types/http"
 import type { WechatJsConfig } from "@/types/wechat"
 import { AxiosResponse } from "axios";
-import type { UserInfo, CheckInfo, StampStatus, RequestDraw, ResposeDraw, ScanCheck, TodayPrizeInfo, CheckResult } from "@/types/user";
+import type { UserInfo, RegisterResult, StampStatus, RequestDraw, ResposeDraw, ScanCheck, TodayPrizeInfo, CheckResult } from "@/types/user";
 
 // 获取用户信息
 // export const getUserInfoAPI = (data: UserInfo) => {
@@ -28,18 +28,29 @@ import type { UserInfo, CheckInfo, StampStatus, RequestDraw, ResposeDraw, ScanCh
 // }
 
 // 用户H5接口
+// 获取短信验证码
+export const getVerificationCodeAPI = (data: { mobile_number: string }): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
+    return httpInstance.post<ResponseType<UserInfo>>('get_verify_code', data);
+}
+// 提交注册信息
+export const registerAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
+    return httpInstance.post<ResponseType<RegisterResult>>('register', data);
+}
+
 // 获取用户信息
 export const getUserInfoAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
     return httpInstance.post<ResponseType<UserInfo>>('get_user_info', data);
 }
-// 电子印章打卡
-export const stampCheckAPI = (data: CheckInfo): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
-    return httpInstance.post<ResponseType<CheckInfo>>('stamp_check', data);
-}
-// 打卡状态查询，主要是备用方案扫描打卡后，查询同步打卡状态
-export const stampStatusAPI = (data: CheckInfo): Promise<AxiosResponse<ResponseType<StampStatus>>> => {
-    return httpInstance.post<ResponseType<StampStatus>>('stamp_status', data);
-}
+
+
+
+
+
+
+
+
+
+
 // 抽奖接口
 export const withdrawAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<ResposeDraw>>> => {
     return httpInstance.post<ResponseType<ResposeDraw>>('withdraw', data); // 添加 URL

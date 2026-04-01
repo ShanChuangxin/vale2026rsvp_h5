@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // 认证与个人信息填写相关
-import Index from '../views/Index/index.vue'
 import Register from '../views/Register/index.vue'  // 研讨会注册
 import Profile from '../views/Profile/index.vue'    // 完善个人信息
 import Arrival from '../views/Arrival/index.vue'    // 行程信息-抵达
@@ -23,14 +22,10 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'index',
-      component: Index
+      name: 'register',
+      component: Register
     },
-    {
-      path: '/index',
-      name: 'index',
-      component: Index
-    },
+
     { // 邀请码验证页面
       path: '/register',
       name: 'register',

@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import { scanCheckAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
+import { useUserStore } from "@/stores/user";
 
 // 监测手机宽高比进行提醒
 onMounted(() => {
@@ -25,6 +26,13 @@ const form = ref({
     job_title: '',
     email: '',
 });
+
+// 同步显示公司信息
+const userStore = useUserStore();
+// 自动填充公司名称
+onMounted(() => {
+  form.value.company_name = userStore.getUserInfo()?.company_name;
+})
 
 
 // 页面跳转

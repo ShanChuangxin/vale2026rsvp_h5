@@ -51,7 +51,6 @@ function onBtnTouchEnd() {
 }
 // 跳转到首页
 const router = useRouter();
-// 表单提交
 function backHome() {
   router.push('/home')
 }

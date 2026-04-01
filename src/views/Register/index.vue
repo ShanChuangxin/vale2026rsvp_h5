@@ -1,47 +1,14 @@
 <!-- 工作人员核销奖品 -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-// import { wechatScan } from '@/utils/wechatLibrary';
-import { getTodayPrizeInfoAPI, checkPrizeAPI } from '@/apis/user'
+import { getVerificationCodeAPI, registerAPI } from '@/apis/user'
 import { Toast } from 'vant'
-import { useRoute, useRouter } from 'vue-router'
-import { PrizeKey, PrizeItem } from '@/types/user';
-// 定义页面
-// 城市信息
-// 通过url参数获取当前城市
-const route = useRoute();
+import { useRouter } from 'vue-router'
 
-// 定义需要显示数据的响应式变量
+import { useUserStore } from '@/stores/user';
 
-// 获取该城市今天奖品信息
-// const getTodayPrizeInfo = async () => {
-//     // 1. 获取城市参数
-//     if (route.query.city) {
-//         console.log(route.query.city);
-//         const city = route.query.city as string;
-//         if (cityList.includes(city)) {
-//             currentCity.value = city;   // 更新城市参数
-//             // 2. 拉取城市核销信息
-//             const res = await getTodayPrizeInfoAPI({city: currentCity.value});
-//             console.log("拉取到的今日的奖品信息为：", res);
-//             if (res.data.errcode == 0){
-//                 PRIZE_KEYS.forEach(key => {
-//                     prizeInfo.value[key].check_count = res.data.data.today_info[key]?.check_count ?? 0; 
-//                     prizeInfo.value[key].issued_count = res.data.data.today_info[key]?.issued_count ?? 0;
-//                 })
-//             } else {
-//                 console.log("拉取今日奖品信息失败：", res.data.errmsg);
-//             }
-//         } else {
-//             Toast("城市参数错误");
-//             return;
-//         }
-//     } else {
-//         Toast("缺少城市参数");
-//         return;
-//     }
-// }
-// onMounted(() => getTodayPrizeInfo())
+const userStore = useUserStore()
+
 
 // 监测手机宽高比进行提醒
 onMounted(() => {
@@ -52,6 +19,19 @@ onMounted(() => {
     })
   }
 });
+
+
+// 页面跳转
+const router = useRouter();
+
+// 监测是否已经注册过，如果已经注册过，则跳转到home页面
+onMounted(() => {
+    console.log(userStore.userInfo?.user_id);
+    if (userStore.userInfo?.user_id) {
+        console.log("已经注册了，二次进入跳转到Home页面");
+        router.push('/home');
+    }
+})
 
 // 开屏图片动画
 const needSplash = ref(false);  // 这个变量未来从localStorage获取
@@ -91,7 +71,7 @@ function closePopWindow() {
 const form = ref({
     invitation_code: '',
     mobile_number: '',
-    verification_code: ''
+    verify_code: ''
 });
 
 const countdown = ref(0);   // 倒计时秒数
@@ -101,7 +81,9 @@ function isValidMobile(mobile: string) {
   const reg = /^1[3-9]\d{9}$/;
   return reg.test(mobile);
 }
-function sendCode() {
+
+// 获取验证码
+async function sendCode() {
     // 1. 倒计时中禁止点击
     if (countdown.value > 0) return;    // 倒计时中不能点击
 
@@ -118,8 +100,7 @@ function sendCode() {
     }
 
     // 4. 在这里调用发送验证码接口，例如：
-    // undo
-    // await sendVerificationCodeAPI(form.mobile_number)
+    await getVerificationCodeAPI({mobile_number: form.value.mobile_number})
     console.log('发送验证码接口调用');
 
     // 5.开始倒计时
@@ -133,11 +114,9 @@ function sendCode() {
   }, 1000);
 }
 
-// 页面跳转
-const router = useRouter();
 
 // 表单提交
-function submitForm() {
+async function submitForm() {
   if (!form.value.invitation_code) {
     Toast('请输入邀请码');
     // Toast({
@@ -150,7 +129,7 @@ function submitForm() {
     Toast('请输入手机号');
     return;
   }
-  if (!form.value.verification_code) {
+  if (!form.value.verify_code) {
     Toast('请输入验证码');
     return;
   }
@@ -159,10 +138,24 @@ function submitForm() {
   console.log('提交的数据:', form.value);
   
   // 提交服务器
-  // undo
+  const res = await registerAPI(form.value);
+  console.log("请求注册的结果为：", res);
+  if (res.data.errcode == 0) {
+    console.log("注册成功");
+    // 1. 本地记录存储
+    userStore.setUserInfo(res.data.data.user_info);
 
-  // 跳转到完善个人信息页面
-  router.push('/profile');
+    // 2. 跳转
+    if (res.data.data.new_user) { // 到完善个人信息页面
+        router.push('/profile');
+    } else {    // 跳转到主页
+        router.push("/home");
+    }
+    
+  } else {
+    console.log("注册失败");
+    Toast(res.data.errmsg);
+  }
 }
 
 </script>
@@ -205,7 +198,7 @@ function submitForm() {
                         <!-- <label>验证码 * Verification Code</label> -->
                         <div class="label-verification-code"></div>
                         <div class="verification-code-area">
-                            <input type="text" v-model="form.verification_code" placeholder="请输入验证码" class="verification-code-input"/>
+                            <input type="text" v-model="form.verify_code" placeholder="请输入验证码" class="verification-code-input"/>
                             <div class="get-code-area" :class="{disabled: countdown > 0}" @click="sendCode">
                                 <h4>{{ countdown > 0 ? countdown + 's后重试' : '获取验证码' }}</h4>
                             </div>

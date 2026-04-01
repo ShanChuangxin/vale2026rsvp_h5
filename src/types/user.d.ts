@@ -4,28 +4,52 @@
 // 用户信息
 export type UserInfo = {
     user_id?: string;
-    auth_code?: stirng;
-    city?: string;
-    qr_code?: string;
-    position_time_1?: number;
-    position_time_2?: number;
-    position_time_3?: number;
-    position_time_4?: number;
-    prize_code?: number;  // 所中的奖品，0为未中奖，1-5为中奖奖品
-    draw_time?: number;
-    verify_status?: boolean;
-    flow_status?: string;
-    // 用户资料
-    nick_name?: string;
-    avatar?: string;
-    join_time?: string;
+    timestamp?: number;
+    update_time?: number;
 
+    // 需要后台显示处理的数据
+    guest_type?: string;
+    table_num?: number;
+    invite_company?: string;
+    room_type?: string;
+    // 注册页面填写的信息
+    invitation_code?: string;
+    mobile_number?: string;
+    verify_code?: string;
+    // 完善个人信息
+    name?: string;
+    gender?: string;
+    company_name?: string;
+    department?: string;
+    job_title?: string;
+    email?: string;
+    // 行程信息-抵达
+    arrival_date?: string;
+    arrival_transport?: string;
+    pickup_required?: string;
+    transport_number?: string;
+    arrival_hour?: number;
+    arrival_min?: number;
+    // 行程信息-返程
+    departure_date?: string;
+    departure_transport?: string;
+    dropoff_required?: string;
+    departure_hour?: number;
+    departure_min?: number;
+    // 酒店信息
+    checkin_date?: string;
+    checkout_date?: string;
+    // 活动行程安排
+    attend_welcome_dinner?: string;
+    attend_gala_dinner?: string;
+    cloth_size?: string;
+    remarks?: string;
 }
 
-// 打卡信息
-export type CheckInfo = {
-    user_id?: string;
-    position_num?: number;
+// 注册结果
+export type RegisterResult = {
+    new_user?: Boolean;
+    user_info?: UserInfo;
 
 }
 
