@@ -28,6 +28,10 @@ import type { UserInfo, RegisterResult, StampStatus, RequestDraw, ResposeDraw, S
 // }
 
 // 用户H5接口
+// 获取用户信息
+export const getUserInfoAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
+    return httpInstance.post<ResponseType<UserInfo>>('get_user_info', data);
+}
 // 获取短信验证码
 export const getVerificationCodeAPI = (data: { mobile_number: string }): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
     return httpInstance.post<ResponseType<UserInfo>>('get_verify_code', data);
@@ -36,10 +40,9 @@ export const getVerificationCodeAPI = (data: { mobile_number: string }): Promise
 export const registerAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
     return httpInstance.post<ResponseType<RegisterResult>>('register', data);
 }
-
-// 获取用户信息
-export const getUserInfoAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
-    return httpInstance.post<ResponseType<UserInfo>>('get_user_info', data);
+// 更新个人信息
+export const updateProfileAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
+    return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('update_profile', data);
 }
 
 
@@ -51,28 +54,9 @@ export const getUserInfoAPI = (data: UserInfo): Promise<AxiosResponse<ResponseTy
 
 
 
-// 抽奖接口
-export const withdrawAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<ResposeDraw>>> => {
-    return httpInstance.post<ResponseType<ResposeDraw>>('withdraw', data); // 添加 URL
-}
 
-// 工作人员H5接口
-// 微信jssdk配置接口
-export const wechatConfigAPI = (data: { url: string }): Promise<AxiosResponse<ResponseType<WechatJsConfig>>> => {
-    return wechatHttp.post<ResponseType<WechatJsConfig>>('h5_share', data); // 添加 URL
-}
-// 备用方案扫码打卡
-export const scanCheckAPI = (data: ScanCheck): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
-    return httpInstance.post<ResponseType<ScanCheck>>('scan_check', data)
-}
-// 获取今日礼品情况
-export const getTodayPrizeInfoAPI = (data: { city: string }): Promise<AxiosResponse<ResponseType<TodayPrizeInfo>>> => {
-    return httpInstance.post<ResponseType<TodayPrizeInfo>>('today_prize_info', data)
-}
-// 核销奖品
-export const checkPrizeAPI = (data: { qr_code: string, city: string }): Promise<AxiosResponse<ResponseType<CheckResult>>> => {
-    return httpInstance.post<ResponseType<CheckResult>>('check_prize', data);
-}
+
+
 
 // debug接口
 // 清除用户抽奖信息

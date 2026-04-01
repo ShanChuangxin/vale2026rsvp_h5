@@ -1,7 +1,7 @@
 <!-- 工作人员备用扫码打卡 -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { scanCheckAPI } from '@/apis/user'
+import { updateProfileAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
 import { useUserStore } from "@/stores/user";
@@ -19,19 +19,26 @@ onMounted(() => {
 
 // 表单信息
 const form = ref({
+    user_id: '',
     name: '',
     gender: '',
     company_name: '',
-    deparment: '',
+    department: '',
     job_title: '',
     email: '',
 });
 
 // 同步显示公司信息
 const userStore = useUserStore();
-// 自动填充公司名称
+// 自动填充信息
 onMounted(() => {
   form.value.company_name = userStore.getUserInfo()?.company_name;
+  form.value.user_id = userStore.userInfo.user_id;
+  form.value.name = userStore.userInfo.name;
+  form.value.gender = userStore.userInfo.gender;
+  form.value.company_name = userStore.userInfo.company_name;
+  form.value.department = userStore.userInfo.department;
+  form.value.job_title = userStore.userInfo.job_title;
 })
 
 
@@ -39,7 +46,7 @@ onMounted(() => {
 const router = useRouter();
 
 // 表单提交
-function submitForm() {
+async function submitForm() {
   if (!form.value.name) {
     Toast('请输入姓名');
     // Toast({
@@ -56,7 +63,7 @@ function submitForm() {
     Toast('请输入公司名称');
     return;
   }
-  if (!form.value.deparment) {
+  if (!form.value.department) {
     Toast('请输入部门');
     return;
   }
@@ -76,10 +83,19 @@ function submitForm() {
 
 
   // 提交服务器
-  // undo
+  const res = await updateProfileAPI(form.value)
+  console.log("更新结果: ", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转到抵达页面填写");
+    // 跳转到行程信息-抵达页面
+    router.push('/arrival');
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+  }
 
-  // 跳转到行程信息-抵达页面
-  router.push('/arrival');
 
 }
 
@@ -106,12 +122,12 @@ function submitForm() {
             <div class="label-gender"></div>
             <div class="radio-group">
               <label class="radio-item">
-                <input type="radio" value="male" v-model="form.gender">
+                <input type="radio" value="男 / Male" v-model="form.gender">
                 <span class="custom-radio"></span>
                 <div class="radio-label-male"></div>
               </label>
               <label class="radio-item">
-                <input type="radio" value="female" v-model="form.gender">
+                <input type="radio" value="女 / Female" v-model="form.gender">
                 <span class="custom-radio"></span>
                 <div class="radio-label-female"></div>
               </label>
@@ -125,7 +141,7 @@ function submitForm() {
         <div class="form-item">
             <!-- <label>部门 * Department</label> -->
             <div class="label-department"></div>
-            <input type="text" v-model="form.deparment" placeholder="请输入部门" />
+            <input type="text" v-model="form.department" placeholder="请输入部门" />
         </div>
         <div class="form-item">
             <!-- <label>职位 * Job Title</label> -->
