@@ -284,6 +284,9 @@ function backHome() {
               align-items: center;
               justify-content: space-between;
               cursor: pointer;
+              span {
+                color: #1A1A1A80;
+              }
               .arrow {
                 width: .5133rem;
                 height: .5133rem;
@@ -309,6 +312,7 @@ function backHome() {
                 border-bottom: .0133rem solid #ddd;
                 padding: .15rem .2rem;
                 cursor: pointer;
+                color: #1A1A1A80;
               }
               .dropdown-item:hover {
                 background: #eee;
@@ -345,6 +349,9 @@ function backHome() {
               align-items: center;
               justify-content: space-between;
               cursor: pointer;
+              span{
+                color: #1A1A1A80;
+              }
               .arrow {
                 width: .5133rem;
                 height: .5133rem;
@@ -370,6 +377,7 @@ function backHome() {
                 border-bottom: .0133rem solid #ddd;
                 padding: .15rem .2rem;
                 cursor: pointer;
+                color: #1A1A1A80;
               }
               .checkout-dropdown-item:hover {
                 background: #eee;

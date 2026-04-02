@@ -188,18 +188,18 @@ async function submitForm() {
                     <div class="form-item">
                         <!-- <label>公司邀请码 * Invitation Code</label> -->
                         <div class="label-invitation-code"></div>
-                        <input type="text" v-model="form.invitation_code" placeholder="请输入邀请码" />
+                        <input type="text" v-model="form.invitation_code" placeholder="请输入邀请码" maxlength="10" />
                     </div>
                     <div class="form-item">
                         <!-- <label>手机号码 * Mobile Code</label> -->
                         <div class="label-mobile-number"></div>
-                        <input type="text" v-model="form.mobile_number" placeholder="请输入手机号" />
+                        <input type="text" v-model="form.mobile_number" placeholder="请输入手机号" maxlength="11"/>
                     </div>
                     <div class="form-item">
                         <!-- <label>验证码 * Verification Code</label> -->
                         <div class="label-verification-code"></div>
                         <div class="verification-code-area">
-                            <input type="text" v-model="form.verify_code" placeholder="请输入验证码" class="verification-code-input"/>
+                            <input type="text" v-model="form.verify_code" placeholder="请输入验证码" maxlength="6"  class="verification-code-input"/>
                             <div class="get-code-area" :class="{disabled: countdown > 0}" @click="sendCode">
                                 <h4>{{ countdown > 0 ? countdown + 's后重试' : '获取验证码' }}</h4>
                             </div>
@@ -382,6 +382,7 @@ async function submitForm() {
                         border: .016rem solid #E0E0E0;
                         border-radius: .1781rem;
                         padding: .1781rem .2036rem;
+                        color: #1A1A1A80;
                     }
                     .verification-code-area {
                         margin-top: .08rem;

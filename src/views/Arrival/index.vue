@@ -328,16 +328,18 @@ function backHome() {
             
         </div>
 
-        <div class="btn-container">
-          <div class="arrow-left" @click="toProfilePage"></div>
-          <button class="submit" type="submit">
-              <div class="arrow-right"></div>
-              <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png" alt=""> -->
-          </button>
-        </div>
+        
 
       </form>
     </div>
+
+    <div class="btn-container">
+          <div class="arrow-left" @click="toProfilePage"></div>
+          <div class="submit" @click="submitForm">
+              <div class="arrow-right"></div>
+              <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png" alt=""> -->
+          </div>
+        </div>
 
   </div>
 </template>
@@ -349,7 +351,7 @@ function backHome() {
     position: absolute;
     width: 100vw;
     max-width: 1280px;
-    // height: 100vh;
+    height: 100vh;
     overflow: hidden;
     background-color: #F5F7F6;
     // 顶部
@@ -415,6 +417,9 @@ function backHome() {
               align-items: center;
               justify-content: space-between;
               cursor: pointer;
+              span {
+                color: #1A1A1A80;
+              }
               .arrow {
                 width: .5133rem;
                 height: .5133rem;
@@ -440,6 +445,7 @@ function backHome() {
                 border-bottom: .0133rem solid #ddd;
                 padding: .15rem .2rem;
                 cursor: pointer;
+                color: #1A1A1A80;
               }
               .dropdown-item:hover {
                 background: #eee;
@@ -476,6 +482,9 @@ function backHome() {
               align-items: center;
               justify-content: space-between;
               cursor: pointer;
+              span {
+                color: #1A1A1A80;
+              }
               .arrow {
                 width: .5133rem;
                 height: .5133rem;
@@ -501,6 +510,7 @@ function backHome() {
                 border-bottom: .0133rem solid #ddd;
                 padding: .15rem .2rem;
                 cursor: pointer;
+                color: #1A1A1A80;
               }
               .arrival-dropdown-item:hover {
                 background: #eee;
@@ -731,38 +741,44 @@ function backHome() {
               border: .016rem solid #E0E0E0;
               border-radius: .1781rem;
               padding: .1781rem .2036rem;
+              color: #1A1A1A80;
           }
         }
-        .btn-container {
-          margin-top: .5rem;
-          margin-bottom: .5rem;
-          width: 4.36rem;
+        
+      }
+    }
+
+    .btn-container {
+      position: absolute;
+      // margin-top: .5rem;
+      bottom: .5rem;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      width: 4.36rem;
+      height: .66rem;
+      // background-color: pink;
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      .arrow-left {
+        width: .66rem;
+        height: .66rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/arrow-left.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .submit {
+        margin-left: auto;  // 把元素推到最右边
+        float:right;
+        width: .66rem;
+        height: .66rem;
+        border: 0;
+        background-color: rgba(0,0,0,0);
+        .arrow-right {
+          width: .66rem;
           height: .66rem;
-          // background-color: pink;
-          display: flex;
-          
-          justify-content: center;
-          align-items: center;
-          .arrow-left {
-            width: .66rem;
-            height: .66rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/arrow-left.png") top center no-repeat;
-            background-size: 100% 100%;
-          }
-          .submit {
-            margin-left: auto;  // 把元素推到最右边
-            float:right;
-            width: .66rem;
-            height: .66rem;
-            border: 0;
-            background-color: rgba(0,0,0,0);
-            .arrow-right {
-              width: .66rem;
-              height: .66rem;
-              background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/arrow-right.png") top center no-repeat;
-              background-size: 100% 100%;
-            }
-          }
+          background: url("https://www.1024.art/projects/static/vale2026rsvp/images/arrival/arrow-right.png") top center no-repeat;
+          background-size: 100% 100%;
         }
       }
     }

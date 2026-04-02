@@ -570,6 +570,7 @@ function backHome() {
               border: .016rem solid #E0E0E0;
               border-radius: .1781rem;
               padding: .1781rem .2036rem;
+              color: #1A1A1A80;
           }
         }
 

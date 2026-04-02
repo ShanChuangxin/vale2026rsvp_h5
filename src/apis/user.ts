@@ -68,6 +68,10 @@ export const updatePlanAPI = (data: UserInfo): Promise<AxiosResponse<ResponseTyp
 
 
 
+// 微信jssdk配置接口
+export const wechatConfigAPI = (data: { url: string }): Promise<AxiosResponse<ResponseType<WechatJsConfig>>> => {
+    return wechatHttp.post<ResponseType<WechatJsConfig>>('h5_share', data); // 添加 URL
+}
 
 
 

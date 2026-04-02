@@ -2,6 +2,7 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { useRouter } from 'vue-router' // 带r的是调用方法，不带r的是获取参数 
 import router from '@/router' // 注意：useRouter只能在vue里用，不能在其它js里用
+import { Toast } from 'vant'
 
 const httpInstance: AxiosInstance = axios.create({
     baseURL: 'https://www.1024.art/api/vale2026rsvp/',
@@ -41,6 +42,14 @@ httpInstance.interceptors.response.use(
         return response; // 返回完整的响应对象
     },
     (error) => {
+        if (error.message.includes('Network Error')) {
+            Toast('网络连接失败，请检查网络');
+        } else if (error.code === 'ECONNABORTED') {
+            Toast('请求超时，请稍后重试');
+        } else {
+            Toast('网络异常，请稍后重试');
+        }
+
         return Promise.reject(error);
     }
 );
