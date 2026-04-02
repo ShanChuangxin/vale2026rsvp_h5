@@ -1,9 +1,10 @@
 <!-- 工作人员备用扫码打卡 -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { scanCheckAPI } from '@/apis/user'
+import { updatePlanAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 
 // 监测手机宽高比进行提醒
@@ -25,16 +26,31 @@ function toHotelPage() {
   router.push('/hotel')
 }
 
+// 同步显示已填充信息
+const userStore = useUserStore();
+// 自动填充信息
+onMounted(() => {
+  console.log(userStore.userInfo);
+  // 表单信息
+  form.value.user_id = userStore.userInfo.user_id;
+  form.value.attend_welcome_dinner = userStore.userInfo.attend_welcome_dinner;
+  form.value.attend_gala_dinner = userStore.userInfo.attend_gala_dinner;
+  form.value.cloth_size = userStore.userInfo.cloth_size;
+  form.value.remarks = userStore.userInfo.remarks;
+})
 
 // 表单信息
 const form = ref({
-    attend_welcome_dinner: '',
-    attend_gala_dinner: '',
-    cloth_size: '',
-    remarks:''
+  user_id: '',
+  attend_welcome_dinner: '',
+  attend_gala_dinner: '',
+  cloth_size: '',
+  remarks:''
 });
+
+
 // 表单提交
-function submitForm() {
+async function submitForm() {
   if (!form.value.attend_welcome_dinner) {
     Toast('请选择是否参加欢迎晚宴');
     return;
@@ -51,16 +67,22 @@ function submitForm() {
   //   Toast('请添加备注');
   //   return;
   // }
-
-  
   
   console.log('提交的数据:', form.value);
 
   // 提交服务器
-  // undo
-
-  // 跳转到信息预览页面
-  router.push('/preview');
+  const res = await updatePlanAPI(form.value);
+  console.log("行程安排结果：", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转到信息预览页面");
+    // 跳转到信息预览页面
+    router.push('/preview');
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+  }
 }
 
 
@@ -81,13 +103,13 @@ function submitForm() {
             <div class="label-welcome-dinner"></div>
             <div class="radio-group">
               <label class="radio-item">
-                <input type="radio" value="是" v-model="form.attend_welcome_dinner">
+                <input type="radio" value="是 / Yes" v-model="form.attend_welcome_dinner">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">是 (Yes)</div> -->
                 <div class="radio-label-yes"></div>
               </label>
               <label class="radio-item">
-                <input type="radio" value="否" v-model="form.attend_welcome_dinner">
+                <input type="radio" value="否 / No" v-model="form.attend_welcome_dinner">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">否 (No)</div> -->
                  <div class="radio-label-no"></div>
@@ -101,13 +123,13 @@ function submitForm() {
             <div class="label-gala-dinner"></div>
             <div class="radio-group">
               <label class="radio-item">
-                <input type="radio" value="是" v-model="form.attend_gala_dinner">
+                <input type="radio" value="是 / Yes" v-model="form.attend_gala_dinner">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">是 (Yes)</div> -->
                 <div class="radio-label-yes"></div>
               </label>
               <label class="radio-item">
-                <input type="radio" value="否" v-model="form.attend_gala_dinner">
+                <input type="radio" value="否 / No" v-model="form.attend_gala_dinner">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">否 (No)</div> -->
                  <div class="radio-label-no"></div>

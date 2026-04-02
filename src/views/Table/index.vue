@@ -1,9 +1,10 @@
 <!-- 工作人员备用扫码打卡 -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { scanCheckAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
+import { getUserInfoAPI } from '@/apis/user';
+import { useUserStore } from '@/stores/user';
 
 
 // 监测手机宽高比进行提醒
@@ -16,8 +17,33 @@ onMounted(() => {
   }
 });
 
+// 加载用户信息
+const userStore = useUserStore();
+onMounted(async () => {
+    if (userStore.userInfo.user_id) {
+        const res = await getUserInfoAPI({user_id: userStore.userInfo.user_id})
+        console.log("获取到的用户信息为：", res);
+        if (res.data.errcode == 0) {
+            // 先更新进本地存储
+            userStore.setUserInfo(res.data.data.user_info);
+            // 更新桌号
+            tableNum.value = userStore.userInfo.table_num;
+            calPostion(); // 更新页面显示内容
+            if (!tableNum.value) {
+              Toast("桌号还未分配");
+            }
+        } else {
+            console.log(res.data.errmsg);
+            Toast("网络异常，请稍后重试");
+        }
+    } else {
+        // Toast("请重新填写信息");
+        router.push('/register');
+    }
+})
+
 // 座位定义
-const tableNum = ref(20);  // 座位号
+const tableNum = ref(0);  // 座位号
 const tablePosition = ref('back'); // front为前，left为左，right为右，back为后
 // 根据座位号计算区域
 function calPostion() {

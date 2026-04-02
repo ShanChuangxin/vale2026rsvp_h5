@@ -39,6 +39,7 @@ onMounted(() => {
   form.value.company_name = userStore.userInfo.company_name;
   form.value.department = userStore.userInfo.department;
   form.value.job_title = userStore.userInfo.job_title;
+  form.value.email = userStore.userInfo.email;
 })
 
 

@@ -48,6 +48,18 @@ export const updateProfileAPI = (data: UserInfo): Promise<AxiosResponse<Response
 export const updateArrivalAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
     return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('update_arrival', data);
 }
+// 更新返程信息
+export const updateDepartureAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
+    return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('update_departure', data);
+}
+// 更新酒店信息
+export const updateHotelAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
+    return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('update_hotel', data);
+}
+// 更新行程安排信息
+export const updatePlanAPI = (data: UserInfo): Promise<AxiosResponse<ResponseType<RegisterResult>>> => {
+    return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('update_plan', data);
+}
 
 
 

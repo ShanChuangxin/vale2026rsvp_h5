@@ -1,9 +1,10 @@
 <!-- 工作人员备用扫码打卡 -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { scanCheckAPI } from '@/apis/user'
+import { getUserInfoAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 
 // 监测手机宽高比进行提醒
@@ -18,34 +19,86 @@ onMounted(() => {
 
 // 用户信息
 const user = ref({
+  user_id: '',
   // 个人信息
-  name: 'David Wang',
-  gender: '男 / Male',
-  company_name: '淡水河谷中国',
-  department: '技术服务部',
-  job_title: '高级工程师',
-  email: 'david@example.com',
+  name: '',
+  gender: '',
+  company_name: '',
+  department: '',
+  job_title: '',
+  email: '',
   // 行程信息-抵达
-  arrival_date: '2026/05/13',
-  arrival_transport: '航班/Flight',
-  pickup_required: '是/Yes',
-  transport_number: 'MU1234',
-  arrival_hour: '12',
-  arrival_min: '30',
+  arrival_date: '',
+  arrival_transport: '',
+  pickup_required: '',
+  transport_number: '',
+  arrival_hour: null as number | null,
+  arrival_min: null as number | null,
   // 行程信息-返程
-  departure_date: '2026/05/15',
-  departure_transport: '大理站 / Dali Railway Station',
-  dropoff_required: '是/Yes',
-  departure_hour: '14',
-  departure_min: '00',
+  departure_date: '',
+  departure_transport: '',
+  dropoff_required: '',
+  departure_hour: null as number | null,
+  departure_min: null as number | null,
   // 酒店信息
-  checkin_date: '2026/05/13',
-  checkout_date: '2026/05/15',
+  checkin_date: '',
+  checkout_date: '',
   // 活动行程安排
-  attend_welcome_dinner: '是 / Yes',
-  attend_gala_dinner: '否 / No',
-  cloth_size: 'M(50-60kg)',
-  remarks: 'xxx'
+  attend_welcome_dinner: '',
+  attend_gala_dinner: '',
+  cloth_size: '',
+  remarks: ''
+})
+
+// 页面进来直接获取用户信息
+const userStore = useUserStore();
+onMounted(async () => {
+    if (userStore.userInfo.user_id) {
+        const res = await getUserInfoAPI({user_id: userStore.userInfo.user_id})
+        console.log("获取到的用户信息为：", res);
+        if (res.data.errcode == 0) {
+            // 先更新进本地存储
+            userStore.setUserInfo(res.data.data.user_info);
+
+            // 填充到页面里
+            // 个人信息
+            user.value.user_id = userStore.userInfo.user_id;
+            user.value.name = userStore.userInfo.name;
+            user.value.gender = userStore.userInfo.gender;
+            user.value.company_name = userStore.userInfo.company_name;
+            user.value.department = userStore.userInfo.department;
+            user.value.job_title = userStore.userInfo.job_title;
+            user.value.email = userStore.userInfo.email;
+            // 行程信息-抵达
+            user.value.arrival_date = userStore.userInfo.arrival_date;
+            user.value.arrival_transport = userStore.userInfo.arrival_transport;
+            user.value.pickup_required = userStore.userInfo.pickup_required;
+            user.value.transport_number = userStore.userInfo.transport_number;
+            user.value.arrival_hour = userStore.userInfo.arrival_hour;
+            user.value.arrival_min = userStore.userInfo.arrival_min;
+            // 行程信息-返程
+            user.value.departure_date = userStore.userInfo.departure_date;
+            user.value.departure_transport = userStore.userInfo.departure_transport;
+            user.value.dropoff_required = userStore.userInfo.dropoff_required;
+            user.value.departure_hour = userStore.userInfo.departure_hour;
+            user.value.departure_min = userStore.userInfo.departure_min;
+            // 酒店信息
+            user.value.checkin_date = userStore.userInfo.checkin_date;
+            user.value.checkout_date = userStore.userInfo.checkout_date;
+            // 活动行程安排
+            user.value.attend_welcome_dinner = userStore.userInfo.attend_welcome_dinner;
+            user.value.attend_gala_dinner = userStore.userInfo.attend_gala_dinner;
+            user.value.cloth_size = userStore.userInfo.cloth_size;
+            user.value.remarks = userStore.userInfo.remarks;
+
+        } else {
+            console.log(res.data.errmsg);
+            Toast("网络异常，请稍后重试");
+        }
+    } else {
+        // Toast("请重新填写信息");
+        router.push('/register');
+    }
 })
 
 // 页面跳转
@@ -61,7 +114,7 @@ function makesureInfo() {
   console.log('确认信息');
 
   // 提交服务器
-  // undo
+  // 不需要提交服务器
 
   // 跳转到提交成功页面
   router.push('/success');
@@ -239,11 +292,12 @@ function makesureInfo() {
         }
         .info-item {
           width: 100%;
-          padding: .18rem 0; 
+          padding: .15rem 0; 
           border-bottom: .01333rem solid #e5e7ea;
           // background-color: skyblue;
           .info-detail {
             // background-color: pink;
+            height: .3rem;
             font-size: .1867rem;
             font-weight: 400;
             color: black;
@@ -299,11 +353,12 @@ function makesureInfo() {
         }
         .info-item {
           width: 100%;
-          padding: .18rem 0; 
+          padding: .15rem 0; 
           border-bottom: .01333rem solid #e5e7ea;
           // background-color: skyblue;
           .info-detail {
             // background-color: pink;
+            height: .3rem;
             font-size: .1867rem;
             font-weight: 400;
             color: black;
@@ -352,11 +407,12 @@ function makesureInfo() {
         }
         .info-item {
           width: 100%;
-          padding: .18rem 0; 
+          padding: .15rem 0; 
           border-bottom: .01333rem solid #e5e7ea;
           // background-color: skyblue;
           .info-detail {
             // background-color: pink;
+            height: .3rem;
             font-size: .1867rem;
             font-weight: 400;
             color: black;
@@ -399,11 +455,12 @@ function makesureInfo() {
         }
         .info-item {
           width: 100%;
-          padding: .18rem 0; 
+          padding: .15rem 0; 
           border-bottom: .01333rem solid #e5e7ea;
           // background-color: skyblue;
           .info-detail {
             // background-color: pink;
+            height: .3rem;
             font-size: .1867rem;
             font-weight: 400;
             color: black;
@@ -434,11 +491,12 @@ function makesureInfo() {
         }
         .info-item {
           width: 100%;
-          padding: .18rem 0; 
+          padding: .15rem 0; 
           border-bottom: .01333rem solid #e5e7ea;
           // background-color: skyblue;
           .info-detail {
             // background-color: pink;
+            height: .3rem;
             font-size: .1867rem;
             font-weight: 400;
             color: black;

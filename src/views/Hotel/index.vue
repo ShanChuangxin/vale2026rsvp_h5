@@ -1,9 +1,10 @@
 <!-- 工作人员备用扫码打卡 -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { scanCheckAPI } from '@/apis/user'
+import { updateHotelAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user';
 
 
 // 监测手机宽高比进行提醒
@@ -75,11 +76,27 @@ function toDeparturePage() {
 
 // 表单信息
 const form = ref({
+    user_id: '',
     checkin_date: '',
     checkout_date: '',
 });
+
+// 同步显示已填充信息
+const userStore = useUserStore();
+// 自动填充信息
+onMounted(() => {
+  console.log(userStore.userInfo);
+  // 表单信息
+  form.value.user_id = userStore.userInfo.user_id;
+  form.value.checkin_date = userStore.userInfo.checkin_date;
+  form.value.checkout_date = userStore.userInfo.checkout_date;
+  // 页面信息
+  checkinDateSelected.value = userStore.userInfo.checkin_date;
+  checkoutSelected.value = userStore.userInfo.checkout_date;
+})
+
 // 表单提交
-function submitForm() {
+async function submitForm() {
   if (!form.value.checkin_date) {
     Toast('请选择酒店入住日期');
     return;
@@ -92,10 +109,18 @@ function submitForm() {
   console.log('提交的数据:', form.value);
 
   // 提交服务器
-  // undo
-
-  // 跳转到活动行程安排页面
-  router.push('/plan');
+  const res = await updateHotelAPI(form.value);
+  console.log("返程结果：", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转到行程安排页面填写");
+    // 跳转到活动行程安排页面
+    router.push('/plan');
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+  }
 }
 
 

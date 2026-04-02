@@ -1,9 +1,10 @@
 <!-- 工作人员备用扫码打卡 -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { scanCheckAPI } from '@/apis/user'
+import { updateDepartureAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 
 // 监测手机宽高比进行提醒
@@ -52,39 +53,6 @@ function departureSelectOption(item: any) {
     })
   }
 }
-// 到达时间-小时
-// const showHourDropdown = ref(false);
-// const hourSelected = ref('');
-// const hourOptions = [
-//   { label: '0', value: '0'},
-//   { label: '1', value: '1'},
-//   { label: '2', value: '2'},
-//   { label: '3', value: '3'},
-//   { label: '4', value: '4'},
-//   { label: '5', value: '5'},
-//   { label: '6', value: '6'},
-//   { label: '7', value: '7'},
-//   { label: '8', value: '8'},
-//   { label: '9', value: '9'},
-//   { label: '10', value: '10'},
-//   { label: '11', value: '11'},
-//   { label: '12', value: '12'},
-//   { label: '13', value: '13'},
-//   { label: '14', value: '14'},
-//   { label: '15', value: '15'},
-//   { label: '16', value: '16'},
-//   { label: '17', value: '17'},
-//   { label: '18', value: '18'},
-//   { label: '19', value: '19'},
-//   { label: '20', value: '20'},
-//   { label: '21', value: '21'},
-//   { label: '22', value: '22'},
-//   { label: '23', value: '23'}
-// ];
-// function hourSelectOption(item: any) {
-//   hourSelected.value = item.value;
-//   showHourDropdown.value = false;
-// }
 
 // 点击外部关闭下拉框
 function handleClickOutside(e: MouseEvent) {
@@ -115,15 +83,34 @@ function toArrivalPage() {
 
 // 表单信息
 const form = ref({
-    departure_date: '',
-    departure_transport: '',
-    dropoff_required: '',
-    // transport_number: '',
-    departure_hour: null as number | null,  // 既保证类型是数字类型，又保证placerholder可以正常显示
-    departure_min: null as number | null,
+  user_id: '',
+  departure_date: '',
+  departure_transport: '',
+  dropoff_required: '',
+  // transport_number: '',
+  departure_hour: null as number | null,  // 既保证类型是数字类型，又保证placerholder可以正常显示
+  departure_min: null as number | null,
 });
+
+// 同步显示已填充信息
+const userStore = useUserStore();
+// 自动填充信息
+onMounted(() => {
+  console.log(userStore.userInfo);
+  // 表单信息
+  form.value.user_id = userStore.userInfo.user_id;
+  form.value.departure_date = userStore.userInfo.departure_date;
+  form.value.departure_transport = userStore.userInfo.departure_transport;
+  form.value.dropoff_required = userStore.userInfo.dropoff_required;
+  form.value.departure_hour = userStore.userInfo.departure_hour;
+  form.value.departure_min = userStore.userInfo.departure_min;
+  // 页面信息
+  dateSelected.value = userStore.userInfo.departure_date;
+  departureSelected.value = userStore.userInfo.departure_transport;
+})
+
 // 表单提交
-function submitForm() {
+async function submitForm() {
   if (!form.value.departure_date) {
     Toast('请选择返程日期');
     return;
@@ -141,7 +128,7 @@ function submitForm() {
     //   Toast('请输入航班号或车次');
     //   return;
     // }
-    if (!form.value.departure_hour || !form.value.departure_min) {
+    if (form.value.departure_hour === null || form.value.departure_min === null) {
       Toast('请输入返程时间');
       return;
     }
@@ -165,10 +152,18 @@ function submitForm() {
 
 
   // 提交服务器
-  // undo
-
-  // 跳转到酒店信息页面
-  router.push('/hotel');
+  const res = await updateDepartureAPI(form.value);
+  console.log("返程结果：", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转到酒店页面填写");
+    // 跳转到酒店信息页面
+    router.push('/hotel');
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+  }
 }
 
 
@@ -239,13 +234,13 @@ function submitForm() {
             <div class="label-pickup-required"></div>
             <div class="radio-group">
               <label class="radio-item">
-                <input type="radio" value="是" v-model="form.dropoff_required">
+                <input type="radio" value="是 / Yes" v-model="form.dropoff_required">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">是 (Yes)</div> -->
                 <div class="radio-label-yes"></div>
               </label>
               <label class="radio-item">
-                <input type="radio" value="否" v-model="form.dropoff_required">
+                <input type="radio" value="否 / No" v-model="form.dropoff_required">
                 <span class="custom-radio"></span>
                 <!-- <div class="radio-text">否 (No)</div> -->
                  <div class="radio-label-no"></div>
