@@ -53,7 +53,7 @@ onMounted(async () => {
         }
     } else {
         // Toast("请重新填写信息");
-        router.push('/register');
+        router.replace('/register');
     }
 })
 
@@ -72,22 +72,22 @@ function clickMenuBtn( menuNum:number) {
     console.log("跳转到：" + menuNum.toString());
     switch (menuNum) {
         case 1: 
-            router.push('/profile'); 
+            router.replace('/profile'); 
             console.log("跳转到个人信息页面");
             break;
-        case 2: router.push('/agenda');
+        case 2: router.replace('/agenda');
             console.log("跳转到日程安排页面");
             break;
-        case 3: router.push('/table');
+        case 3: router.replace('/table');
             console.log("跳转到晚宴桌号页面");
             break;
-        case 4: router.push('/service');
+        case 4: router.replace('/service');
             console.log("跳转到班车安排页面");
             break;
-        case 5: router.push('/guide');
+        case 5: router.replace('/guide');
             console.log("跳转到酒店导览页面");
             break;
-        case 6: router.push('/tips');
+        case 6: router.replace('/tips');
             console.log("跳转到日程安排页面");
             break;
         case 7: Toast("等待获取参会照片链接..");
@@ -106,23 +106,23 @@ function updateInfo () {
     console.log("跳转到信息补充页面");
     switch(updateNum) {
         case 1: 
-            router.push('/profile');
+            router.replace('/profile');
             console.log("跳转到完善个人信息页面");
             break;
         case 2: 
-            router.push('/arrival');
+            router.replace('/arrival');
             console.log("跳转行程信息-抵达页面");
             break;
         case 3: 
-            router.push('/departure');
+            router.replace('/departure');
             console.log("跳转到行程信息-返程页面");
             break;
         case 4: 
-            router.push('/hotel');
+            router.replace('/hotel');
             console.log("跳转到酒店信息页面");
             break;
         case 5: 
-            router.push('/plan');
+            router.replace('/plan');
             console.log("跳转到活动行程安排页面");
             break;
         default:
@@ -172,7 +172,7 @@ function debugLogout() {
     userStore.clearUserInfo();
     Toast("用户本地信息已清除");
     setTimeout(() => {
-        router.push('/register');
+        router.replace('/register');
     }, 2000)
 }
 

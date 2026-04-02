@@ -91,7 +91,7 @@ async function submitForm() {
     userStore.setUserInfo(res.data.data.user_info);
     console.log("更新成功，跳转到抵达页面填写");
     // 跳转到行程信息-抵达页面
-    router.push('/arrival');
+    router.replace('/arrival');
   } else {
     console.log(res.data.errmsg);
     Toast("网络异常，请稍后重试");
@@ -100,7 +100,7 @@ async function submitForm() {
 
 // 跳转到首页
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
 }
 
 </script>

@@ -73,7 +73,7 @@ const router = useRouter();
 async function toDeparturePage() {
   const success = await submitForm();
   if (!success) return;
-  router.push('/departure')
+  router.replace('/departure')
 }
 
 // 表单信息
@@ -118,7 +118,7 @@ async function submitForm() {
     userStore.setUserInfo(res.data.data.user_info);
     console.log("更新成功，跳转到行程安排页面填写");
     // 跳转到活动行程安排页面
-    router.push('/plan');
+    router.replace('/plan');
     return true;
   } else {
     console.log(res.data.errmsg);
@@ -129,7 +129,7 @@ async function submitForm() {
 
 // 跳转到首页
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
 }
 
 </script>

@@ -25,7 +25,7 @@ const router = useRouter();
 async function toHotelPage() {
   const success = await submitForm();
   if (!success) return;
-  router.push('/hotel')
+  router.replace('/hotel')
 }
 
 // 同步显示已填充信息
@@ -80,7 +80,7 @@ async function submitForm() {
     userStore.setUserInfo(res.data.data.user_info);
     console.log("更新成功，跳转到信息预览页面");
     // 跳转到信息预览页面
-    router.push('/preview');
+    router.replace('/preview');
     return true;
   } else {
     console.log(res.data.errmsg);
@@ -91,7 +91,7 @@ async function submitForm() {
 
 // 跳转到首页
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
 }
 
 </script>

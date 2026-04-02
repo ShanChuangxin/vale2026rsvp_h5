@@ -80,7 +80,7 @@ const router = useRouter();
 async function toArrivalPage() {
   const success = await submitForm();
   if (!success) return;
-  router.push('/arrival')
+  router.replace('/arrival')
 }
 
 // 表单信息
@@ -161,7 +161,7 @@ async function submitForm() {
     userStore.setUserInfo(res.data.data.user_info);
     console.log("更新成功，跳转到酒店页面填写");
     // 跳转到酒店信息页面
-    router.push('/hotel');
+    router.replace('/hotel');
     return true;
   } else {
     console.log(res.data.errmsg);
@@ -172,7 +172,7 @@ async function submitForm() {
 
 // 跳转到首页
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
 }
 
 </script>

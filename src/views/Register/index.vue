@@ -29,7 +29,7 @@ onMounted(() => {
     console.log(userStore.userInfo?.user_id);
     if (userStore.userInfo?.user_id) {
         console.log("已经注册了，二次进入跳转到Home页面");
-        router.push('/home');
+        router.replace('/home');
     }
 })
 
@@ -148,9 +148,9 @@ async function submitForm() {
 
     // 2. 跳转
     if (res.data.data.new_user) { // 到完善个人信息页面
-        router.push('/profile');
+        router.replace('/profile');
     } else {    // 跳转到主页
-        router.push("/home");
+        router.replace("/home");
     }
     
   } else {

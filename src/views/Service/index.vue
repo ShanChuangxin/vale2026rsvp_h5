@@ -33,7 +33,7 @@ function onBtnTouchEnd() {
 const router = useRouter();
 // 表单提交
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
 }
 
 

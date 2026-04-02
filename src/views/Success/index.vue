@@ -52,7 +52,7 @@ const user = ref({
 const router = useRouter();
 // 返回主页
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
   
   console.log('返回主页');
 }

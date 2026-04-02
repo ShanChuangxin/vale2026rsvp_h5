@@ -97,7 +97,7 @@ onMounted(async () => {
         }
     } else {
         // Toast("请重新填写信息");
-        router.push('/register');
+        router.replace('/register');
     }
 })
 
@@ -105,7 +105,7 @@ onMounted(async () => {
 const router = useRouter();
 // 上一步：活动行程安排页面
 function toPlanPage() {
-  router.push("/plan")
+  router.replace("/plan")
 }
 
 // 表单提交
@@ -117,12 +117,12 @@ function makesureInfo() {
   // 不需要提交服务器
 
   // 跳转到提交成功页面
-  router.push('/success');
+  router.replace('/success');
 }
 
 // 跳转到首页
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
 }
 </script>
 

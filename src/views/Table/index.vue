@@ -38,7 +38,7 @@ onMounted(async () => {
         }
     } else {
         // Toast("请重新填写信息");
-        router.push('/register');
+        router.replace('/register');
     }
 })
 
@@ -78,7 +78,7 @@ function onBtnTouchEnd() {
 // 跳转到首页
 const router = useRouter();
 function backHome() {
-  router.push('/home')
+  router.replace('/home')
 }
 
 
