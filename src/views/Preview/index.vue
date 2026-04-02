@@ -120,6 +120,10 @@ function makesureInfo() {
   router.push('/success');
 }
 
+// 跳转到首页
+function backHome() {
+  router.push('/home')
+}
 </script>
 
 <template>
@@ -127,6 +131,7 @@ function makesureInfo() {
     <!-- 头部区域 -->
     <div class="head-container">
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/preview/header.jpg" class="head-img"></img>
+      <div class="back-home" @click="backHome"></div>
     </div>
     <!-- 信息区域 -->
     <div class="info-container">
@@ -268,6 +273,14 @@ function makesureInfo() {
       justify-content: center;
       .head-img{
         width: 100%;
+      }
+      .back-home {
+        position: absolute;
+        top: .26rem;
+        right: .26rem;
+        width: .84rem;
+        height: .4rem;
+        // background-color: pink;
       }
     }
     // 信息区域

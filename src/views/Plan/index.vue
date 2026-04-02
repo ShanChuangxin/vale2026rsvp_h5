@@ -22,7 +22,9 @@ onMounted(() => {
 const router = useRouter();
 
 // 上一步：酒店信息
-function toHotelPage() {
+async function toHotelPage() {
+  const success = await submitForm();
+  if (!success) return;
   router.push('/hotel')
 }
 
@@ -53,15 +55,15 @@ const form = ref({
 async function submitForm() {
   if (!form.value.attend_welcome_dinner) {
     Toast('请选择是否参加欢迎晚宴');
-    return;
+    return false;
   }
   if (!form.value.attend_gala_dinner) {
     Toast('请选择是否参加研讨会晚宴');
-    return;
+    return false;
   }
   if (!form.value.cloth_size) {
     Toast('请选择服装尺寸');
-    return;
+    return false;
   }
   // if (!form.value.remarks) {
   //   Toast('请添加备注');
@@ -79,12 +81,18 @@ async function submitForm() {
     console.log("更新成功，跳转到信息预览页面");
     // 跳转到信息预览页面
     router.push('/preview');
+    return true;
   } else {
     console.log(res.data.errmsg);
     Toast("网络异常，请稍后重试");
+    return false;
   }
 }
 
+// 跳转到首页
+function backHome() {
+  router.push('/home')
+}
 
 </script>
 
@@ -94,6 +102,7 @@ async function submitForm() {
     <div class="head-container">
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/plan/header.jpg" class="head-img"></img>
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/plan/segmented-stepper-5.png" class="head-step"></img>
+      <div class="back-home" @click="backHome"></div>
     </div>
     <!-- 表单区域 -->
     <div class="form-container">
@@ -213,6 +222,14 @@ async function submitForm() {
       }
       .head-step {
         width: 100%;
+      }
+      .back-home {
+        position: absolute;
+        top: .26rem;
+        right: .26rem;
+        width: .84rem;
+        height: .4rem;
+        // background-color: pink;
       }
     }
     // 表单

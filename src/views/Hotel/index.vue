@@ -70,7 +70,9 @@ onUnmounted(() => {
 const router = useRouter();
 
 // 上一步：行程信息-返程页面
-function toDeparturePage() {
+async function toDeparturePage() {
+  const success = await submitForm();
+  if (!success) return;
   router.push('/departure')
 }
 
@@ -99,11 +101,11 @@ onMounted(() => {
 async function submitForm() {
   if (!form.value.checkin_date) {
     Toast('请选择酒店入住日期');
-    return;
+    return false;
   }
   if (!form.value.checkout_date) {
     Toast('请选择酒店退房日期');
-    return;
+    return false;
   }
   
   console.log('提交的数据:', form.value);
@@ -117,12 +119,18 @@ async function submitForm() {
     console.log("更新成功，跳转到行程安排页面填写");
     // 跳转到活动行程安排页面
     router.push('/plan');
+    return true;
   } else {
     console.log(res.data.errmsg);
     Toast("网络异常，请稍后重试");
+    return false;
   }
 }
 
+// 跳转到首页
+function backHome() {
+  router.push('/home')
+}
 
 </script>
 
@@ -132,6 +140,7 @@ async function submitForm() {
     <div class="head-container">
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/hotel/header.jpg" class="head-img"></img>
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/hotel/segmented-stepper-4.png" class="head-step"></img>
+      <div class="back-home" @click="backHome"></div>
     </div>
     <!-- 表单区域 -->
     <div class="form-container">
@@ -221,6 +230,14 @@ async function submitForm() {
       }
       .head-step {
         width: 100%;
+      }
+      .back-home {
+        position: absolute;
+        top: .26rem;
+        right: .26rem;
+        width: .84rem;
+        height: .4rem;
+        // background-color: pink;
       }
     }
     // 表单

@@ -26,6 +26,27 @@ onMounted(async () => {
         if (res.data.errcode == 0) {
             // 先更新进本地存储
             userStore.setUserInfo(res.data.data.user_info);
+            // 判断是否需要弹窗提醒更新信息
+            if (!userStore.userInfo.name || !userStore.userInfo.gender || !userStore.userInfo.company_name || !userStore.userInfo.department || !userStore.userInfo.job_title) {
+                isPopWindow.value = true;   // 显示信息不全弹窗
+                updateNum = 1;   // 设置跳转路径
+            } else if (!userStore.userInfo.arrival_date || !userStore.userInfo.arrival_transport || ((userStore.userInfo.arrival_transport == '大理凤仪机场' || userStore.userInfo.arrival_transport == '大理站') && (!userStore.userInfo.pickup_required || !userStore.userInfo.transport_number || userStore.userInfo.arrival_hour===null || userStore.userInfo.arrival_min===null))) {
+                isPopWindow.value = true;   // 显示信息不全弹窗
+                updateNum = 2;   // 设置跳转路径
+            } else if (!userStore.userInfo.departure_date || !userStore.userInfo.departure_transport || ((userStore.userInfo.departure_transport == '大理凤仪机场' || userStore.userInfo.departure_transport == '大理站') && (!userStore.userInfo.dropoff_required || userStore.userInfo.departure_hour===null || userStore.userInfo.departure_min===null))) {
+                isPopWindow.value = true;   // 显示信息不全弹窗
+                updateNum = 3;   // 设置跳转路径
+            } else if (!userStore.userInfo.checkin_date || !userStore.userInfo.checkout_date) {
+                console.log("更新酒店信息");
+                isPopWindow.value = true;   // 显示信息不全弹窗
+                updateNum = 4;   // 设置跳转路径
+            } else if (!userStore.userInfo.attend_welcome_dinner || !userStore.userInfo.attend_gala_dinner || !userStore.userInfo.cloth_size) {
+                isPopWindow.value = true;   // 显示信息不全弹窗
+                updateNum = 5;   // 设置跳转路径
+            } else {
+                console.log("资料完整，无需要弹窗更新");
+            }
+            console.log(updateNum);
         } else {
             console.log(res.data.errmsg);
             Toast("网络异常，请稍后重试");
@@ -72,15 +93,41 @@ function clickMenuBtn( menuNum:number) {
         case 7: Toast("等待获取参会照片链接..");
             console.log("跳转到参会照片页面");
             break;
+        default:
+            break;
     }
 }
 
 
 // 信息完善弹窗
 const isPopWindow = ref(false);
-function editProfile () {
+let updateNum = 0;
+function updateInfo () {
     console.log("跳转到信息补充页面");
-    // undo
+    switch(updateNum) {
+        case 1: 
+            router.push('/profile');
+            console.log("跳转到完善个人信息页面");
+            break;
+        case 2: 
+            router.push('/arrival');
+            console.log("跳转行程信息-抵达页面");
+            break;
+        case 3: 
+            router.push('/departure');
+            console.log("跳转到行程信息-返程页面");
+            break;
+        case 4: 
+            router.push('/hotel');
+            console.log("跳转到酒店信息页面");
+            break;
+        case 5: 
+            router.push('/plan');
+            console.log("跳转到活动行程安排页面");
+            break;
+        default:
+            isPopWindow.value = false;
+    }
 }
 function closePopWindow() {
     console.log("关闭信息补充页面");
@@ -93,6 +140,7 @@ const isNoBtnPressed = ref(false);
 function onYesBtnTouchStart() {
     isYesBtnPressed.value = true;
     console.log("按钮按下");
+    updateInfo();
 }
 // yes按钮松开的事件
 function onYesBtnTouchEnd() {
@@ -120,6 +168,13 @@ function debugSwitchDate() {
         Toast("切换到5.13之后");
     }
 }
+function debugLogout() {
+    userStore.clearUserInfo();
+    Toast("用户本地信息已清除");
+    setTimeout(() => {
+        router.push('/register');
+    }, 2000)
+}
 
 
 </script>
@@ -131,6 +186,7 @@ function debugSwitchDate() {
             <!-- 图片用于撑起父盒子 -->
             <img src="https://www.1024.art/projects/static/vale2026rsvp/images/home/header.jpg" class="head-bg">
             <div class="debug-switch-date" @click="debugSwitchDate"></div>
+            <div class="debug-logout" @click="debugLogout"></div>
         </div>
         
         <!-- 菜单列表 -->
@@ -236,6 +292,14 @@ function debugSwitchDate() {
             top: .2rem;
             left: .24rem;
             width: .84rem;
+            height: .4rem;
+        }
+        .debug-logout {
+            position: absolute;
+            // background-color: pink;
+            bottom: .28rem;
+            right: .17rem;
+            width: 2.61rem;
             height: .4rem;
         }
     }

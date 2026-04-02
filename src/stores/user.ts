@@ -31,6 +31,7 @@ export const useUserStore = defineStore('user', {
     // 清空用户信息（退出登录用）
     clearUserInfo() {
       this.userInfo = {} as UserInfo
+      console.log("LocalStorate中的用户信息已清除!");
     }
   },
 

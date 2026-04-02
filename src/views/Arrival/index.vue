@@ -110,7 +110,9 @@ onUnmounted(() => {
 const router = useRouter();
 
 // 上一步：个人信息设置页面
-function toProfilePage() {
+async function toProfilePage() {
+  const success = await submitForm();
+  if (!success) return;
   router.push('/profile')
 }
 
@@ -147,38 +149,38 @@ onMounted(() => {
 async function submitForm() {
   if (!form.value.arrival_date) {
     Toast('请选择抵达日期');
-    return;
+    return false;
   }
   if (!form.value.arrival_transport) {
     Toast('请选择抵达方式');
-    return;
+    return false;
   }
   if (form.value.arrival_transport == '大理凤仪机场' || form.value.arrival_transport == '大理站' ) {
     if (!form.value.pickup_required) {
       Toast('请选择是否需要接机/接车');
-      return;
+      return false;
     }
     if (!form.value.transport_number) {
       Toast('请输入航班号或车次');
-      return;
+      return false;
     }
     if (form.value.arrival_hour === null || form.value.arrival_min === null) {
       Toast('请输入抵达时间');
-      return;
+      return false;
     }
     if (form.value.arrival_hour < 0 || form.value.arrival_hour > 23) {
       Toast('请调整抵达小时');
-      return;
+      return false;
     }
     if (form.value.arrival_min < 0 || form.value.arrival_min > 59) {
       Toast('请调整抵达分钟');
-      return;
+      return false;
     }
   } else {
     form.value.pickup_required = '';
     form.value.transport_number = '';
-    form.value.arrival_hour = 0;
-    form.value.arrival_min = 0;
+    form.value.arrival_hour = null;
+    form.value.arrival_min = null;
   }
   
   
@@ -193,12 +195,18 @@ async function submitForm() {
     console.log("更新成功，跳转到返程页面填写");
     // 跳转到行程信息-抵达页面
     router.push('/departure');
+    return true;
   } else {
     console.log(res.data.errmsg);
     Toast("网络异常，请稍后重试");
+    return false;
   }
 }
 
+// 跳转到首页
+function backHome() {
+  router.push('/home')
+}
 
 </script>
 
@@ -208,6 +216,7 @@ async function submitForm() {
     <div class="head-container">
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/arrival/header.jpg" class="head-img"></img>
       <img src="https://www.1024.art/projects/static/vale2026rsvp/images/arrival/segmented-stepper-2.png" class="head-step"></img>
+      <div class="back-home" @click="backHome"></div>
     </div>
     <!-- 表单区域 -->
     <div class="form-container">
@@ -354,6 +363,14 @@ async function submitForm() {
       }
       .head-step {
         width: 100%;
+      }
+      .back-home {
+        position: absolute;
+        top: .26rem;
+        right: .26rem;
+        width: .84rem;
+        height: .4rem;
+        // background-color: pink;
       }
     }
     // 表单
