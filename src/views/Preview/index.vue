@@ -569,7 +569,7 @@ function backHome() {
     }
     // 确认按钮
     .btn-tick {
-      margin: .3rem 0 .3rem 50%;
+      margin: .3rem 0 .5rem 50%;
       transform: translateX(-50%);
       width: 4.36rem;
       height: .72rem;

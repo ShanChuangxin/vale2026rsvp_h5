@@ -157,6 +157,7 @@ function backHome() {
     // 返回主页按钮
     .home-btn {
       margin-top: .7rem;
+      margin-top: .7rem;
       margin-left: 50%;
       transform: translateX(-50%);
       width: 4.36rem;

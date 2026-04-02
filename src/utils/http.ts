@@ -5,7 +5,7 @@ import router from '@/router' // 注意：useRouter只能在vue里用，不能�
 
 const httpInstance: AxiosInstance = axios.create({
     // baseURL: 'https://www.mbcstyle.cn/api/vale2026rsvp/',
-    baseURL: 'http://127.0.0.1:8000/api/vale2026rsvp/',
+    baseURL: 'http://192.168.50.28:8000/api/vale2026rsvp/',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json', // 确保设置 Content-Type 为 application/json

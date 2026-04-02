@@ -195,15 +195,17 @@ function backHome() {
 
         <div class="tips-hotel"></div>
 
-        <div class="btn-container">
-          <div class="arrow-left" @click="toDeparturePage"></div>
-          <button class="submit" type="submit">
-              <div class="arrow-right"></div>
-              <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png" alt=""> -->
-          </button>
-        </div>
+        
 
       </form>
+    </div>
+
+    <div class="btn-container">
+      <div class="arrow-left" @click="toDeparturePage"></div>
+      <div class="submit" @click="submitForm">
+          <div class="arrow-right"></div>
+          <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png" alt=""> -->
+      </div>
     </div>
 
   </div>
@@ -384,35 +386,40 @@ function backHome() {
           background-size: 100% 100%;
         }
 
-        .btn-container {
-          margin-top: .5rem;
-          width: 4.36rem;
+        
+      }
+    }
+    .btn-container {
+      position: absolute;
+      bottom: .5rem;
+      margin-top: .5rem;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      width: 4.36rem;
+      height: .66rem;
+      // background-color: pink;
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      .arrow-left {
+        width: .66rem;
+        height: .66rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/hotel/arrow-left.png") top center no-repeat;
+        background-size: 100% 100%;
+      }
+      .submit {
+        margin-left: auto;  // 把元素推到最右边
+        float:right;
+        width: .66rem;
+        height: .66rem;
+        border: 0;
+        background-color: rgba(0,0,0,0);
+        .arrow-right {
+          width: .66rem;
           height: .66rem;
-          // background-color: pink;
-          display: flex;
-          
-          justify-content: center;
-          align-items: center;
-          .arrow-left {
-            width: .66rem;
-            height: .66rem;
-            background: url("https://www.1024.art/projects/static/vale2026rsvp/images/hotel/arrow-left.png") top center no-repeat;
-            background-size: 100% 100%;
-          }
-          .submit {
-            margin-left: auto;  // 把元素推到最右边
-            float:right;
-            width: .66rem;
-            height: .66rem;
-            border: 0;
-            background-color: rgba(0,0,0,0);
-            .arrow-right {
-              width: .66rem;
-              height: .66rem;
-              background: url("https://www.1024.art/projects/static/vale2026rsvp/images/hotel/arrow-right.png") top center no-repeat;
-              background-size: 100% 100%;
-            }
-          }
+          background: url("https://www.1024.art/projects/static/vale2026rsvp/images/hotel/arrow-right.png") top center no-repeat;
+          background-size: 100% 100%;
         }
       }
     }

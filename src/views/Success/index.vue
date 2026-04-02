@@ -84,7 +84,7 @@ function backHome() {
     // 通用页面
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    // height: 100vh;
     max-width: 1280px;
     // height: 100vh;
     // overflow: hidden;
@@ -119,7 +119,7 @@ function backHome() {
 
     // 返回主页按钮
     .btn-home {
-      margin: .3rem 0 .3rem 50%;
+      margin: .5rem 0 .5rem 50%;
       transform: translateX(-50%);
       width: 4.36rem;
       height: .72rem;

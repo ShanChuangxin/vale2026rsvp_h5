@@ -409,7 +409,7 @@ async function submitForm() {
                             cursor: pointer;
                             user-select: none;
                             h4 {
-                                margin: 0;
+                                margin: .05rem 0 0 0;
                                 line-height: .6133rem;  // 行高一致，垂直居中
                                 font-family: "NotoSansSC-Regular";
                                 font-size: .1867rem;

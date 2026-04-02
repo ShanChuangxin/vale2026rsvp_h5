@@ -241,7 +241,7 @@ function debugLogout() {
     // 通用页面
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    // height: 100vh;
     // overflow: hidden;
     background-color: #F5F7F6;
     // 顶部区域
@@ -307,6 +307,7 @@ function debugLogout() {
     // 菜单列表容器
     .menu-list-container {
         margin-top: .6rem;
+        margin-bottom: .8rem;
         margin-left: 50%;
         transform: translateX(-50%);
         // background-color: pink;

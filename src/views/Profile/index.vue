@@ -173,7 +173,7 @@ function backHome() {
     // 通用页面
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    // height: 100vh;
     overflow: hidden;
     background-color: #F5F7F6;
      // 顶部
@@ -338,8 +338,9 @@ function backHome() {
         .submit {
           margin-top: .5rem;
           margin-left: auto;  // 把元素推到最右边
+          margin-bottom: .5rem;
           float:right;
-          width: .66rem;
+          width: .8rem;
           height: .66rem;
           border: 0;
           background-color: rgba(0,0,0,0);

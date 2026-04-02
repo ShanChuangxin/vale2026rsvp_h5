@@ -349,7 +349,7 @@ function backHome() {
     position: absolute;
     width: 100vw;
     max-width: 1280px;
-    height: 100vh;
+    // height: 100vh;
     overflow: hidden;
     background-color: #F5F7F6;
     // 顶部
@@ -735,6 +735,7 @@ function backHome() {
         }
         .btn-container {
           margin-top: .5rem;
+          margin-bottom: .5rem;
           width: 4.36rem;
           height: .66rem;
           // background-color: pink;

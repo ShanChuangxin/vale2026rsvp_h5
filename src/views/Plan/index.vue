@@ -151,9 +151,14 @@ function backHome() {
             <div class="tips-cloth-size"></div>
             <div class="radio-group">
               <label class="radio-item">
+                <input type="radio" value="S" v-model="form.cloth_size">
+                <span class="custom-radio"></span>
+                <div class="radio-size-s"></div>
+              </label>
+              <label class="radio-item">
                 <input type="radio" value="M" v-model="form.cloth_size">
                 <span class="custom-radio"></span>
-                <div class="radio-size-m"></div>
+                 <div class="radio-size-m"></div>
               </label>
               <label class="radio-item">
                 <input type="radio" value="L" v-model="form.cloth_size">
@@ -175,13 +180,9 @@ function backHome() {
                 <span class="custom-radio"></span>
                  <div class="radio-size-3xl"></div>
               </label>
-              <label class="radio-item">
-                <input type="radio" value="4XL" v-model="form.cloth_size">
-                <span class="custom-radio"></span>
-                 <div class="radio-size-4xl"></div>
-              </label>
             </div>
         </div>
+        <div class="size-ref"></div>
 
         <div class="form-item">
           <div class="label-remarks"></div>
@@ -424,6 +425,7 @@ function backHome() {
         .radio-cloth-container {
           margin-top: .3rem;
           width: 4.36rem;
+          // width: 100%;
           // height: .6133rem;
           display: flex;
           flex-direction: column;
@@ -467,7 +469,7 @@ function backHome() {
               margin-top: .13rem;
               width: 33.33%;
               display: flex;
-              // align-items: center;
+              align-items: center;
               // 隐藏原生radio
               input {
                 display: none;
@@ -502,45 +504,53 @@ function backHome() {
               // .radio-text {
               //   color: #6c727f;
               // }
+              .radio-size-s {
+                width: .08rem;
+                height: .1333rem;
+                background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/radio-size-s.png") top center no-repeat;
+                background-size: 100% 100%;
+              }
               .radio-size-m {
-                width: .72rem;
-                height: .3933rem;
+                width: .1533rem;
+                height: .1266rem;
                 background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/radio-size-m.png") top center no-repeat;
                 background-size: 100% 100%;
               }
               .radio-size-l {
-                width: .72rem;
-                height: .3933rem;
+                width: .08rem;
+                height: .1266rem;
                 background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/radio-size-l.png") top center no-repeat;
                 background-size: 100% 100%;
               }
               .radio-size-xl {
-                width: .72rem;
-                height: .3933rem;
+                width: .2066rem;
+                height: .1266rem;
                 background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/radio-size-xl.png") top center no-repeat;
                 background-size: 100% 100%;
               }
               .radio-size-2xl {
-                width: .72rem;
-                height: .3933rem;
+                width: .3066rem;
+                height: .1266rem;
                 background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/radio-size-2xl.png") top center no-repeat;
                 background-size: 100% 100%;
               }
               .radio-size-3xl {
-                width: .72rem;
-                height: .3933rem;
+                width: .3066rem;
+                height: .1333rem;
                 background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/radio-size-3xl.png") top center no-repeat;
-                background-size: 100% 100%;
-              }
-              .radio-size-4xl {
-                width: .72rem;
-                height: .3933rem;
-                background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/radio-size-4xl.png") top center no-repeat;
                 background-size: 100% 100%;
               }
             }
 
           }
+        }
+
+        .size-ref {
+          margin-top: .3rem;
+          width: 4.36rem;
+          height: 3.7733rem;
+          background: url("https://www.1024.art/projects/static/vale2026rsvp/images/plan/size-ref.png") top center no-repeat;
+          background-size: 100% 100%;
         }
 
         .form-item {
