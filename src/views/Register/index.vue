@@ -89,13 +89,15 @@ async function sendCode() {
 
     // 2. 手机号不能为空
     if (!form.value.mobile_number) {
-        Toast('请输入手机号');
+        // Toast('请输入手机号');
+        Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
         return;
     }
 
     // 3. 手机号格式校验
     if (!isValidMobile(form.value.mobile_number)) {
-        Toast('手机号格式不正确');
+        // Toast('手机号格式不正确');
+        Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
         return;
     }
 
@@ -165,7 +167,12 @@ async function submitForm() {
     <!-- 开屏动画 -->
     <transition name="splash-fade">
         <div v-if="showSplash" class="splash-screen">
-            <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/KV.jpg" class="splash-image"/>
+            <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/kv.jpg" class="splash-image"/> -->
+            <div class="splash-image">
+                <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/splash-bg.jpg" alt="">
+                <div class="title"></div>
+                <div class="slogan"></div>
+            </div>
         </div>
     </transition>
 
@@ -174,7 +181,7 @@ async function submitForm() {
         <!-- 顶部区域 -->
         <div class="head-area">
             <!-- 图片用于撑起父盒子 -->
-            <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/head-bg.png" class="head-bg">
+            <img src="https://www.1024.art/projects/static/vale2026rsvp/images/register/head-bg.jpg" class="head-bg">
             <!-- <div class="logo"></div>
             <div class="slogan"></div>
             <div class="event-name"></div>
@@ -242,13 +249,59 @@ async function submitForm() {
   align-items: center;
 
   background: #000;
-  z-index: 9999;
+  z-index: 999;
+    
 }
 
+// .splash-image {
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// }
 .splash-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    // width: 1.6333rem;
+    // height: .3266rem;
+    // background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/kv.jpg") top center no-repeat;
+    // background-size: 100% 100%;
+    img {
+        width: 100%;
+    }
+    .title {
+        position: absolute;
+        top: 1rem;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        width: 5rem;
+        height: 3.56rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/title.png") top center no-repeat;
+        background-size: 100% 100%;
+        // background-color: red;
+    }
+    .slogan {
+        position: absolute;
+        bottom: .35rem;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        width: 5rem;
+        height: 1.06rem;
+        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/slogan-full.png") top center no-repeat;
+        background-size: 100% 100%;
+        z-index: 9999;
+    }
+    // .slogan-en {
+    //     position: absolute;
+    //     bottom: .4rem;
+    //     left: .4rem;
+    //     width: 1.7133rem;
+    //     height: .5666rem;
+    //     background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/slogan-en.png") top center no-repeat;
+    //     background-size: 100% 100%;
+    //     z-index: 9999;
+    //     // background-color: red;
+    // }
 }
 
 .splash-fade-enter-active {

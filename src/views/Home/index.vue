@@ -71,7 +71,7 @@ const router = useRouter();
 function clickMenuBtn( menuNum:number) {
     // 1. 判断是否到开放日了
     if (isClose.value && (3 == menuNum || menuNum > 4)) {
-        Toast("5月13日开放");
+        Toast("5月13日开放\nThis content will be available from May 13");
         return;
     }
     // 2. 跳转
