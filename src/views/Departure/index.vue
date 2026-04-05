@@ -78,9 +78,32 @@ const router = useRouter();
 
 // 上一步：行程信息-抵达页面
 async function toArrivalPage() {
-  const success = await submitForm();
-  if (!success) return;
-  router.replace('/arrival')
+
+  if (!(form.value.departure_transport == '大理凤仪机场' || form.value.departure_transport == '大理站' )) {
+    form.value.dropoff_required = '';
+    // form.value.transport_number = '';
+    form.value.departure_hour = null;
+    form.value.departure_min = null;
+  }
+  
+  
+  console.log('提交的数据:', form.value);
+
+
+  // 提交服务器
+  const res = await updateDepartureAPI(form.value);
+  console.log("返程结果：", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转到上一页填写");
+    router.replace('/arrival')
+    return true;
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+    return false
+  }
 }
 
 // 表单信息
@@ -110,6 +133,40 @@ onMounted(() => {
   dateSelected.value = userStore.userInfo.departure_date;
   departureSelected.value = userStore.userInfo.departure_transport;
 })
+
+// 处理时间：1. 输入又全删，从null变成''，2. 限制范围
+const handleHourInput = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value;
+
+  if (value === "") {
+    form.value.departure_hour = null; // ✅ 空 → null
+  } else {
+    const num = Number(value);
+
+    // 限制范围
+    if (num >= 0 && num <= 23) {
+      form.value.departure_hour = num;
+    } else {
+      form.value.departure_hour = null;
+    }
+  }
+};
+const handleMinInput = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value;
+
+  if (value === "") {
+    form.value.departure_min = null; // ✅ 空 → null
+  } else {
+    const num = Number(value);
+
+    // 限制范围
+    if (num >= 0 && num <= 59) {
+      form.value.departure_min = num;
+    } else {
+      form.value.departure_min = null;
+    }
+  }
+};
 
 // 表单提交
 async function submitForm() {
@@ -280,9 +337,9 @@ function backHome() {
               </div> -->
               
               <!-- 文本框的形式 -->
-              <input class="time-input" type="number" v-model="form.departure_hour" placeholder="时" />
+              <input class="time-input" type="number" v-model="form.departure_hour" placeholder="时" @input="handleHourInput"/>
               <div class="semicolon">:</div>
-              <input class="time-input" type="number" v-model="form.departure_min" placeholder="分" />
+              <input class="time-input" type="number" v-model="form.departure_min" placeholder="分" @input="handleMinInput"/>
             </div>
 
             <div class="tips-time-format"></div>

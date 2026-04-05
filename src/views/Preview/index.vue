@@ -186,7 +186,7 @@ function backHome() {
         </div>
         <div class="info-item">
           <div class="label-arrival-time"></div>
-          <div class="info-detail"> {{ user.arrival_hour }}<span v-if="user.arrival_hour&&user.arrival_min"> : </span>{{ user.arrival_min }} </div>
+          <div class="info-detail"> <span v-if="user.arrival_hour&&user.arrival_min">{{ user.arrival_hour }} : {{ user.arrival_min }}</span> </div>
         </div>
       </div>
       <!-- 行程信息-返程 -->
@@ -206,7 +206,7 @@ function backHome() {
         </div>
         <div class="info-item">
           <div class="label-departure-time"></div>
-          <div class="info-detail"> {{ user.departure_hour }} <span v-if="user.departure_hour&&user.departure_min"> : </span>{{ user.departure_min }} </div>
+          <div class="info-detail"> <span v-if="user.departure_hour&&user.departure_min">{{ user.departure_hour }}  : {{ user.departure_min }} </span></div>
         </div>
       </div>
       <!-- 酒店信息 -->

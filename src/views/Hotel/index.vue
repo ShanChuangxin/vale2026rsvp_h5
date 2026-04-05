@@ -71,9 +71,23 @@ const router = useRouter();
 
 // 上一步：行程信息-返程页面
 async function toDeparturePage() {
-  const success = await submitForm();
-  if (!success) return;
-  router.replace('/departure')
+  
+  console.log('提交的数据:', form.value);
+
+  // 提交服务器
+  const res = await updateHotelAPI(form.value);
+  console.log("返程结果：", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转到上个页面填写");
+    router.replace('/departure')
+    return true;
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+    return false;
+  }
 }
 
 // 表单信息

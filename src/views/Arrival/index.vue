@@ -111,9 +111,29 @@ const router = useRouter();
 
 // 上一步：个人信息设置页面
 async function toProfilePage() {
-  const success = await submitForm();
-  if (!success) return;
-  router.replace('/profile')
+  if (!(form.value.arrival_transport == '大理凤仪机场' || form.value.arrival_transport == '大理站' )) {
+    form.value.pickup_required = '';
+    form.value.transport_number = '';
+    form.value.arrival_hour = null;
+    form.value.arrival_min = null;
+  }
+  if (!form.value.arrival_hour && form.value.arrival_hour != 0) form.value.arrival_hour == null;
+  if (!form.value.arrival_min && form.value.arrival_min != 0) form.value.arrival_min == null;
+  console.log('提交的数据:', form.value);
+  // 提交服务器
+  const res = await updateArrivalAPI(form.value);
+  console.log("到达结果：", res);
+  if (res.data.errcode == 0) {
+    // 先更新进本地存储
+    userStore.setUserInfo(res.data.data.user_info);
+    console.log("更新成功，跳转上一步填写");
+    router.replace('/profile')
+    return true;
+  } else {
+    console.log(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
+    return false;
+  }
 }
 
 // 表单信息
@@ -144,6 +164,39 @@ onMounted(() => {
   arrivalSelected.value = userStore.userInfo.arrival_transport;
 })
 
+// 处理时间：1. 输入又全删，从null变成''，2. 限制范围
+const handleHourInput = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value;
+
+  if (value === "") {
+    form.value.arrival_hour = null; // ✅ 空 → null
+  } else {
+    const num = Number(value);
+
+    // 限制范围
+    if (num >= 0 && num <= 23) {
+      form.value.arrival_hour = num;
+    } else {
+      form.value.arrival_hour = null;
+    }
+  }
+};
+const handleMinInput = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value;
+
+  if (value === "") {
+    form.value.arrival_min = null; // ✅ 空 → null
+  } else {
+    const num = Number(value);
+
+    // 限制范围
+    if (num >= 0 && num <= 59) {
+      form.value.arrival_min = num;
+    } else {
+      form.value.arrival_min = null;
+    }
+  }
+};
 
 // 表单提交
 async function submitForm() {
@@ -183,6 +236,7 @@ async function submitForm() {
     form.value.arrival_min = null;
   }
   
+  // 专门处理输入文字后再删除，从null变成空字符串的情况
   
   console.log('提交的数据:', form.value);
 
@@ -319,9 +373,9 @@ function backHome() {
               </div> -->
               
               <!-- 文本框的形式 -->
-              <input class="time-input" type="number" v-model="form.arrival_hour" placeholder="时" />
+              <input class="time-input" type="number" v-model="form.arrival_hour" placeholder="时" @input="handleHourInput"/>
               <div class="semicolon">:</div>
-              <input class="time-input" type="number" v-model="form.arrival_min" placeholder="分" />
+              <input class="time-input" type="number" v-model="form.arrival_min" placeholder="分" @input="handleMinInput"/>
             </div>
 
             <div class="tips-time-format"></div>
