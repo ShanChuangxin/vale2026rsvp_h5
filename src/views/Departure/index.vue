@@ -85,11 +85,7 @@ async function toArrivalPage() {
     form.value.departure_hour = null;
     form.value.departure_min = null;
   }
-  
-  
   console.log('提交的数据:', form.value);
-
-
   // 提交服务器
   const res = await updateDepartureAPI(form.value);
   console.log("返程结果：", res);
@@ -171,16 +167,19 @@ const handleMinInput = (e: Event) => {
 // 表单提交
 async function submitForm() {
   if (!form.value.departure_date) {
-    Toast('请选择返程日期');
+    // Toast('请选择返程日期');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   if (!form.value.departure_transport) {
-    Toast('请选择返程方式');
+    // Toast('请选择返程方式');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   if (form.value.departure_transport == '大理凤仪机场' || form.value.departure_transport == '大理站' ) {
     if (!form.value.dropoff_required) {
-      Toast('请选择是否需要接机/接车');
+      // Toast('请选择是否需要接机/接车');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
     // if (!form.value.transport_number) {
@@ -188,15 +187,18 @@ async function submitForm() {
     //   return;
     // }
     if (form.value.departure_hour === null || form.value.departure_min === null) {
-      Toast('请输入返程时间');
+      // Toast('请输入返程时间');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
     if (form.value.departure_hour < 0 || form.value.departure_hour > 23) {
-      Toast('请调整返程小时');
+      // Toast('请调整返程小时');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
     if (form.value.departure_min < 0 || form.value.departure_min > 59) {
-      Toast('请调整返程分钟');
+      // Toast('请调整返程分钟');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
   } else {

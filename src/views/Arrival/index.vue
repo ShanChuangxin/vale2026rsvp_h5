@@ -117,8 +117,6 @@ async function toProfilePage() {
     form.value.arrival_hour = null;
     form.value.arrival_min = null;
   }
-  if (!form.value.arrival_hour && form.value.arrival_hour != 0) form.value.arrival_hour == null;
-  if (!form.value.arrival_min && form.value.arrival_min != 0) form.value.arrival_min == null;
   console.log('提交的数据:', form.value);
   // 提交服务器
   const res = await updateArrivalAPI(form.value);
@@ -201,32 +199,39 @@ const handleMinInput = (e: Event) => {
 // 表单提交
 async function submitForm() {
   if (!form.value.arrival_date) {
-    Toast('请选择抵达日期');
+    // Toast('请选择抵达日期');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   if (!form.value.arrival_transport) {
-    Toast('请选择抵达方式');
+    // Toast('请选择抵达方式');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   if (form.value.arrival_transport == '大理凤仪机场' || form.value.arrival_transport == '大理站' ) {
     if (!form.value.pickup_required) {
-      Toast('请选择是否需要接机/接车');
+      // Toast('请选择是否需要接机/接车');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
     if (!form.value.transport_number) {
-      Toast('请输入航班号或车次');
+      // Toast('请输入航班号或车次');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
     if (form.value.arrival_hour === null || form.value.arrival_min === null) {
-      Toast('请输入抵达时间');
+      // Toast('请输入抵达时间');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
     if (form.value.arrival_hour < 0 || form.value.arrival_hour > 23) {
-      Toast('请调整抵达小时');
+      // Toast('请调整抵达小时');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
     if (form.value.arrival_min < 0 || form.value.arrival_min > 59) {
-      Toast('请调整抵达分钟');
+      // Toast('请调整抵达分钟');
+      Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
       return false;
     }
   } else {

@@ -120,7 +120,8 @@ async function sendCode() {
 // 表单提交
 async function submitForm() {
   if (!form.value.invitation_code) {
-    Toast('请输入邀请码');
+    // Toast('请输入邀请码');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     // Toast({
     //     message: "抵达方式建议您于4月29日前提供 \n It is recommended that you provide the arrival details by April 29th.",
     //     duration: 2000
@@ -128,11 +129,13 @@ async function submitForm() {
     return;
   }
   if (!form.value.mobile_number) {
-    Toast('请输入手机号');
+    // Toast('请输入手机号');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return;
   }
   if (!form.value.verify_code) {
-    Toast('请输入验证码');
+    // Toast('请输入验证码');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return;
   }
   

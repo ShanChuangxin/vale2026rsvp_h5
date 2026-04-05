@@ -49,7 +49,8 @@ const router = useRouter();
 // 表单提交
 async function submitForm() {
   if (!form.value.name) {
-    Toast('请输入姓名');
+    // Toast('请输入姓名');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     // Toast({
     //     message: "抵达方式建议您于4月29日前提供 \n It is recommended that you provide the arrival details by April 29th.",
     //     duration: 2000
@@ -57,19 +58,23 @@ async function submitForm() {
     return;
   }
   if (!form.value.gender) {
-    Toast('请选择性别');
+    // Toast('请选择性别');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return;
   }
   if (!form.value.company_name) {
-    Toast('请输入公司名称');
+    // Toast('请输入公司名称');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return;
   }
   if (!form.value.department) {
-    Toast('请输入部门');
+    // Toast('请输入部门');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return;
   }
   if (!form.value.job_title) {
-    Toast('请输入职位');
+    // Toast('请输入职位');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return;
   }
 

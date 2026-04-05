@@ -114,11 +114,13 @@ onMounted(() => {
 // 表单提交
 async function submitForm() {
   if (!form.value.checkin_date) {
-    Toast('请选择酒店入住日期');
+    // Toast('请选择酒店入住日期');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   if (!form.value.checkout_date) {
-    Toast('请选择酒店退房日期');
+    // Toast('请选择酒店退房日期');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   

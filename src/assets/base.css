@@ -84,3 +84,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* 防止Toast中的英文单词在换行时被强制拆开 */
+.van-toast__text {
+  /* text-align: left; */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}

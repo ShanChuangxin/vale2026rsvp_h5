@@ -68,15 +68,18 @@ const form = ref({
 // 表单提交
 async function submitForm() {
   if (!form.value.attend_welcome_dinner) {
-    Toast('请选择是否参加欢迎晚宴');
+    // Toast('请选择是否参加欢迎晚宴');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   if (!form.value.attend_gala_dinner) {
-    Toast('请选择是否参加研讨会晚宴');
+    // Toast('请选择是否参加研讨会晚宴');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   if (!form.value.cloth_size) {
-    Toast('请选择服装尺寸');
+    // Toast('请选择服装尺寸');
+    Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
   // if (!form.value.remarks) {
