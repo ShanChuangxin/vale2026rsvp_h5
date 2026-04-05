@@ -35,10 +35,10 @@ function dateSelectOption(item: any) {
 const showArrivalDropdown = ref(false);
 const arrivalSelected = ref('');
 const arrivalOptions = [
-  { label: '大理凤仪机场', value: '大理凤仪机场'},
-  { label: '大理站', value: '大理站'},
-  { label: '自驾或其他', value: '自驾或其他'},
-  { label: '稍后提供', value: '稍后提供'},
+  { label_cn: '飞机 - 大理凤仪机场', label_en: 'Flight - Dali Fengyi Airport', value: '大理凤仪机场 (Dali Fengyi Airport)'},
+  { label_cn: '高铁 - 大理站', label_en: 'Railway - Dali Station', value: '大理站 (Dali Station)'},
+  { label_cn: '自驾或其他', label_en: 'Self-Driving or Other', value: '自驾或其他 (Self-Driving or Other)'},
+  { label_cn: '稍后提供', label_en: 'To Be Provided Later', value: '稍后提供 (To Be Provided Later)'},
 ];
 function arrivalSelectOption(item: any) {
   // 1. 赋值
@@ -46,7 +46,7 @@ function arrivalSelectOption(item: any) {
   form.value.arrival_transport = item.value;
   showArrivalDropdown.value = false;
   // 2. 如果是稍后提供，则进行弹窗
-  if (item.value == '稍后提供') {
+  if (item.value == '稍后提供 (To Be Provided Later)') {
     Toast({
         message: "抵达方式建议您于4月29日前提供 \n It is recommended that you provide the arrival details by April 29th.",
         duration: 2000
@@ -322,7 +322,7 @@ function backHome() {
                   class="arrival-dropdown-item"
                   @click="arrivalSelectOption(item)"
                 >
-                {{ item.label }}
+                {{ item.label_cn }} <br> {{ item.label_en }}
               </div>
               </div>
             </div>

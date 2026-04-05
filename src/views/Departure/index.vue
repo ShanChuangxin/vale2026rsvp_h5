@@ -35,10 +35,10 @@ function dateSelectOption(item: any) {
 const showDepartureDropdown = ref(false);
 const departureSelected = ref('');
 const departureOptions = [
-  { label: '大理凤仪机场', value: '大理凤仪机场'},
-  { label: '大理站', value: '大理站'},
-  { label: '自驾或其他', value: '自驾或其他'},
-  { label: '稍后提供', value: '稍后提供'},
+  { label_cn: '飞机 - 大理凤仪机场', label_en: 'Flight - Dali Fengyi Airport', value: '大理凤仪机场 (Dali Fengyi Airport)'},
+  { label_cn: '高铁 - 大理站', label_en: 'Railway - Dali Station', value: '大理站 (Dali Station)'},
+  { label_cn: '自驾或其他', label_en: 'Self-Driving or Other', value: '自驾或其他 (Self-Driving or Other)'},
+  { label_cn: '稍后提供', label_en: 'To Be Provided Later', value: '稍后提供 (To Be Provided Later)'},
 ];
 function departureSelectOption(item: any) {
   // 1. 赋值
@@ -46,7 +46,7 @@ function departureSelectOption(item: any) {
   form.value.departure_transport = item.value;
   showDepartureDropdown.value = false;
   // 2. 如果是稍后提供，则进行弹窗
-  if (item.value == '稍后提供') {
+  if (item.value == '稍后提供 (To Be Provided Later)') {
     Toast({
         message: "如您暂无法确定返程方式，建议于5月7日前补充提供。\n If your departure transport is not yet confirmed, please provide them by May 7.",
         duration: 3000
@@ -289,7 +289,7 @@ function backHome() {
                   class="departure-dropdown-item"
                   @click="departureSelectOption(item)"
                 >
-                {{ item.label }}
+                {{ item.label_cn }} <br> {{ item.label_en }}
               </div>
               </div>
             </div>

@@ -64,7 +64,12 @@ onMounted(async () => {
 })
 
 // 某些菜单未开放控制
-const isClose = ref(true);
+const isClose = ref(false);
+onMounted(() => {
+    const open_time = new Date('2026-5-13 00:00:00');
+    const now = new Date();
+    isClose.value = now <= open_time;   // 限制开放
+})
 
 const router = useRouter();
 // 菜单按钮跳转：1为个人信息，2为日程安排，3为晚宴桌号，4为班车安排，5为酒店导览，6为温馨贴士，7为参会照片
