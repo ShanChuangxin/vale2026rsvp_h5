@@ -55,7 +55,8 @@ function backHome() {
     
                     
     <!-- 返回主页按钮 -->
-    <div class="home-btn" :class="{press: isBtnPressed}" @touchstart="onBtnTouchStart" @touchend="onBtnTouchEnd" @click="backHome"></div>
+    <!-- <div class="home-btn" :class="{press: isBtnPressed}" @touchstart="onBtnTouchStart" @touchend="onBtnTouchEnd" @click="backHome"></div> -->
+    <div class="home-btn" @click="backHome"></div>
 
 
   </div>
