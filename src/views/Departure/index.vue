@@ -79,7 +79,7 @@ const router = useRouter();
 // 上一步：行程信息-抵达页面
 async function toArrivalPage() {
 
-  if (!(form.value.departure_transport == '大理凤仪机场' || form.value.departure_transport == '大理站' )) {
+  if (!(form.value.departure_transport == '大理凤仪机场 (Dali Fengyi Airport)' || form.value.departure_transport == '大理站 (Dali Station)' )) {
     form.value.dropoff_required = '';
     // form.value.transport_number = '';
     form.value.departure_hour = null;
@@ -176,7 +176,7 @@ async function submitForm() {
     Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
-  if (form.value.departure_transport == '大理凤仪机场' || form.value.departure_transport == '大理站' ) {
+  if (form.value.departure_transport == '大理凤仪机场 (Dali Fengyi Airport)' || form.value.departure_transport == '大理站 (Dali Station)' ) {
     if (!form.value.dropoff_required) {
       // Toast('请选择是否需要接机/接车');
       Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
@@ -297,7 +297,7 @@ function backHome() {
 
         <div class="tips-not-sure-departure"></div>
 
-        <div v-show="departureSelected === '大理凤仪机场' || departureSelected === '大理站'" class="radio-container">
+        <div v-show="departureSelected === '大理凤仪机场 (Dali Fengyi Airport)' || departureSelected === '大理站 (Dali Station)'" class="radio-container">
             <!-- <label>是否需要接机/接车 * Pick-up Required</label> -->
             <div class="label-pickup-required"></div>
             <div class="radio-group">
@@ -316,7 +316,7 @@ function backHome() {
             </div>
         </div>
 
-        <div v-show="departureSelected === '大理凤仪机场' || departureSelected === '大理站'" class="hour-select-item">
+        <div v-show="departureSelected === '大理凤仪机场 (Dali Fengyi Airport)' || departureSelected === '大理站 (Dali Station)'" class="hour-select-item">
             <!-- <label>落地/到站时间 * Landing Time / Train Departure Time</label> -->
             <div class="label-departure-time"></div>
             <div class="time-container">

@@ -111,7 +111,7 @@ const router = useRouter();
 
 // 上一步：个人信息设置页面
 async function toProfilePage() {
-  if (!(form.value.arrival_transport == '大理凤仪机场' || form.value.arrival_transport == '大理站' )) {
+  if (!(form.value.arrival_transport == '大理凤仪机场 (Dali Fengyi Airport)' || form.value.arrival_transport == '大理站 (Dali Station)' )) {
     form.value.pickup_required = '';
     form.value.transport_number = '';
     form.value.arrival_hour = null;
@@ -208,7 +208,7 @@ async function submitForm() {
     Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
     return false;
   }
-  if (form.value.arrival_transport == '大理凤仪机场' || form.value.arrival_transport == '大理站' ) {
+  if (form.value.arrival_transport == '大理凤仪机场 (Dali Fengyi Airport)' || form.value.arrival_transport == '大理站 (Dali Station)' ) {
     if (!form.value.pickup_required) {
       // Toast('请选择是否需要接机/接车');
       Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
@@ -330,7 +330,7 @@ function backHome() {
 
         <div class="tips-not-sure-transport"></div>
 
-        <div v-show="arrivalSelected === '大理凤仪机场' || arrivalSelected === '大理站'" class="radio-container">
+        <div v-show="arrivalSelected === '大理凤仪机场 (Dali Fengyi Airport)' || arrivalSelected === '大理站 (Dali Station)'" class="radio-container">
             <!-- <label>是否需要接机/接车 * Pick-up Required</label> -->
             <div class="label-pickup-required"></div>
             <div class="radio-group">
@@ -349,13 +349,13 @@ function backHome() {
             </div>
         </div>
 
-        <div v-show="arrivalSelected === '大理凤仪机场' || arrivalSelected === '大理站'" class="text-item">
+        <div v-show="arrivalSelected === '大理凤仪机场 (Dali Fengyi Airport)' || arrivalSelected === '大理站 (Dali Station)'" class="text-item">
             <!-- <label>航班号或车次 * Flight / Train Number</label> -->
             <div class="label-transport-number"></div>
             <input type="text" v-model="form.transport_number" placeholder="请填写航班号或车次" />
         </div>
 
-        <div v-show="arrivalSelected === '大理凤仪机场' || arrivalSelected === '大理站'" class="hour-select-item">
+        <div v-show="arrivalSelected === '大理凤仪机场 (Dali Fengyi Airport)' || arrivalSelected === '大理站 (Dali Station)'" class="hour-select-item">
             <!-- <label>落地/到站时间 * Landing Time / Train Arrival Time</label> -->
             <div class="label-arrival-time"></div>
             <div class="time-container">

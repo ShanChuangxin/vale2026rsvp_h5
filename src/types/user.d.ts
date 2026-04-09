@@ -29,14 +29,14 @@ export type UserInfo = {
     arrival_transport?: string;
     pickup_required?: string;
     transport_number?: string;
-    arrival_hour?: number;
-    arrival_min?: number;
+    arrival_hour?: number | null;
+    arrival_min?: number | null;
     // 行程信息-返程
     departure_date?: string;
     departure_transport?: string;
     dropoff_required?: string;
-    departure_hour?: number;
-    departure_min?: number;
+    departure_hour?: number | null;
+    departure_min?: number | null;
     // 酒店信息
     checkin_date?: string;
     checkout_date?: string;
