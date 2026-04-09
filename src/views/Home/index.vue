@@ -64,10 +64,12 @@ onMounted(async () => {
 })
 
 // 某些菜单未开放控制
-const isClose = ref(false);
+const isClose = ref(true);
 onMounted(() => {
-    const open_time = new Date('2026-5-13 00:00:00');
+    const open_time = new Date(2026, 5, 13, 0, 0, 0);
     const now = new Date();
+    console.log(open_time.toString());
+    console.log(now.toString());
     isClose.value = now <= open_time;   // 限制开放
 })
 
@@ -109,6 +111,16 @@ function clickMenuBtn( menuNum:number) {
     }
 }
 
+// 弹窗
+const isPopRulerWindow = ref(false);
+function closeRulerPopWindow() {
+    console.log("关闭信息保护与服务协议");
+    // 1. 本地存储记录 
+    // undo
+
+    // 2. 关闭弹窗
+    isPopRulerWindow.value = false;
+}
 
 // 信息完善弹窗
 const isPopWindow = ref(false);
@@ -229,7 +241,27 @@ function debugLogout() {
             </div>
         </div>
 
-        <!-- 弹窗 -->
+        <!-- 隐私条款 -->
+        <div class="ruler-container" @click="isPopRulerWindow=true">
+            <div>《用户个人信息保护与服务协议》</div>
+            <div>User Personal Information Protection and Service Agreement</div>
+        </div>
+
+        <!-- 隐私条款弹窗 -->
+        <div v-if="isPopRulerWindow" class="pop-ruler-window-container" @click="closeRulerPopWindow">
+            <div class="pop-ruler-window" @click.stop>
+                <div class="text-content">
+                    <div class="scroll">
+                        <div class="ruler"></div>
+                    </div>
+                </div>
+                <div class="text-btn" @click="closeRulerPopWindow">
+                    <div class="text-btn-tick"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 更新弹窗 -->
         <div v-if="isPopWindow" class="pop-window-container" @click="closePopWindow">
             <div class="pop-window" @click.stop>
                 <div class="tips-finish">
@@ -340,7 +372,91 @@ function debugLogout() {
         }
     }
    
-    // 弹窗
+    // 隐私条款
+    .ruler-container {
+        position: absolute;
+        bottom: .2rem;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        // background-color: pink;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: .1rem;
+        color: #747678;
+        
+
+    }
+
+    // 隐私条款弹窗
+    .pop-ruler-window-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .35);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .pop-ruler-window {
+            width: 4.3893rem;
+            height: 7.0992rem;
+            border-radius: .2036rem;
+            background-color: #FFFFFF;
+            .text-content {
+                margin-top: .2897rem;
+                margin-left: 50%;
+                padding-top: .3463rem;
+                transform: translateX(-50%);
+                width: 3.7788rem;
+                height: 5.4072rem;
+                border: .0085rem solid #E6E8E5;
+                border-radius: .1781rem;
+                overflow: hidden;
+                .scroll {
+                    height: 100%;
+                    overflow-y: auto;
+                    -webkit-overflow-scrolling: touch;  // 微信 + ios滚动ww优化
+                    display: flex;
+                    justify-content: center;
+                    .ruler {
+                        margin-top: -.3463rem;
+                        width: 3.16rem;
+                        height: 12.44rem;
+                        background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/ruler.png") top center no-repeat;
+                        background-size: 100% 100%;
+                        margin-bottom: .4rem;
+                    }
+                }
+
+            }
+            .text-btn {
+                margin-top: .3463rem;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                width: 3.1807rem;
+                height: .7125rem;
+                border: 0;
+                border-radius: .1781rem;
+                background-color: #007E7A;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .text-btn-tick {
+                    width: .68rem;
+                    height: .68rem;
+                    background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/tick.png") top center no-repeat;
+                    background-size: 100% 100%;
+                }
+            }
+        }
+    }
+
+
+    // 信息更新弹窗
     .pop-window-container {
         position: absolute;
         top: 0;

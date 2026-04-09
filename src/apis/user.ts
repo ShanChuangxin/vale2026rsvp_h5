@@ -33,7 +33,7 @@ export const getUserInfoAPI = (data: UserInfo): Promise<AxiosResponse<ResponseTy
     return httpInstance.post<ResponseType<{ user_info: UserInfo }>>('get_user_info', data);
 }
 // 获取短信验证码
-export const getVerificationCodeAPI = (data: { mobile_number: string }): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
+export const getVerificationCodeAPI = (data: { area_code: string, mobile_number: string }): Promise<AxiosResponse<ResponseType<UserInfo>>> => {
     return httpInstance.post<ResponseType<UserInfo>>('get_verify_code', data);
 }
 // 提交注册信息

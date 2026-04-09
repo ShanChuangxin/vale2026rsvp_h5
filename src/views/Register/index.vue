@@ -1,6 +1,6 @@
 <!-- 工作人员核销奖品 -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { getVerificationCodeAPI, registerAPI } from '@/apis/user'
 import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
@@ -70,6 +70,7 @@ function closePopWindow() {
 // 表单信息
 const form = ref({
     invitation_code: '',
+    area_code: '+86',  // 地区区号，默认是+86
     mobile_number: '',
     verify_code: ''
 });
@@ -81,6 +82,37 @@ function isValidMobile(mobile: string) {
   const reg = /^1[3-9]\d{9}$/;
   return reg.test(mobile);
 }
+
+// 地区区号选择
+const showAreaCodeDropdown = ref(false);
+const areaCodeSelected = ref('+86');
+const areaCodeOptions = [
+  { label: '+86', value: '+86'},
+  { label: '+65', value: '+65'},
+  { label: '+886', value: '+886'},
+  { label: '+55', value: '+55'}
+];
+function checkoutSelectOption(item: any) {
+  // 1. 赋值
+  areaCodeSelected.value = item.value;
+  form.value.area_code = item.value;
+  showAreaCodeDropdown.value = false;
+}
+
+// 点击外部关闭下拉框
+function handleClickOutside(e: MouseEvent) {
+
+  const elAreaCode = document.querySelector('.area-code-select-box')
+  if (elAreaCode && !elAreaCode.contains(e.target as Node)) {
+    showAreaCodeDropdown.value = false;
+  }
+}
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+})
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+})
 
 // 获取验证码
 async function sendCode() {
@@ -95,14 +127,14 @@ async function sendCode() {
     }
 
     // 3. 手机号格式校验
-    if (!isValidMobile(form.value.mobile_number)) {
-        // Toast('手机号格式不正确');
-        Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
-        return;
-    }
+    // if (!isValidMobile(form.value.mobile_number)) {
+    //     // Toast('手机号格式不正确');
+    //     Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
+    //     return;
+    // }
 
     // 4. 在这里调用发送验证码接口，例如：
-    await getVerificationCodeAPI({mobile_number: form.value.mobile_number})
+    await getVerificationCodeAPI({area_code: form.value.area_code, mobile_number: form.value.mobile_number})
     console.log('发送验证码接口调用');
 
     // 5.开始倒计时
@@ -201,15 +233,40 @@ async function submitForm() {
                         <input type="text" v-model="form.invitation_code" placeholder="请输入邀请码" maxlength="10" />
                     </div>
                     <div class="form-item">
-                        <!-- <label>手机号码 * Mobile Code</label> -->
                         <div class="label-mobile-number"></div>
-                        <input type="text" v-model="form.mobile_number" placeholder="请输入手机号" maxlength="11"/>
+                        <div class="mobile-container">
+                            <!-- 区号下拉框 -->
+                            <div class="area-code-select-item">
+                                <div class="area-code-select-box">
+                                    <!-- 按钮 -->
+                                    <div class="checkout-select-btn" @click="showAreaCodeDropdown = !showAreaCodeDropdown">
+                                        <!-- <span>{{ areaCodeSelected ||  '请选择退房日期'}}</span> -->
+                                        <span>{{ areaCodeSelected }}</span>
+                                        <!-- 箭头（可以换图片） -->
+                                        <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/departure/select-btn.png" class="arrow" :class="{ rotate: showAreaCodeDropdown }" /> -->
+                                    </div>
+                                    <!-- 下拉框 -->
+                                    <div class="checkout-dropdown" v-if="showAreaCodeDropdown">
+                                        <div 
+                                            v-for="item in areaCodeOptions"
+                                            :key="item.value"
+                                            class="checkout-dropdown-item"
+                                            @click="checkoutSelectOption(item)"
+                                            >
+                                            {{ item.label }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="number" v-model="form.mobile_number" placeholder="请输入手机号" maxlength="11"/>
+                        </div>
+                        
                     </div>
                     <div class="form-item">
                         <!-- <label>验证码 * Verification Code</label> -->
                         <div class="label-verification-code"></div>
                         <div class="verification-code-area">
-                            <input type="text" v-model="form.verify_code" placeholder="请输入验证码" maxlength="6"  class="verification-code-input"/>
+                            <input type="number" v-model="form.verify_code" placeholder="请输入验证码" maxlength="6"  class="verification-code-input"/>
                             <div class="get-code-area" :class="{disabled: countdown > 0}" @click="sendCode">
                                 <h4>{{ countdown > 0 ? countdown + 's后重试' : '获取验证码' }}</h4>
                             </div>
@@ -419,6 +476,94 @@ async function submitForm() {
                         background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/label-invitation-code.png") top center no-repeat;
                         background-size: 100% 100%;
                     }
+
+                    // 手机号容器
+                    .mobile-container {
+                        margin-top: .08rem;
+                        background-color: white;
+                        width: 4.36rem;
+                        height: .6133rem;
+                        display: flex;
+                        align-items: center;
+                        border: .016rem solid #E0E0E0;
+                        border-radius: .1781rem;
+                        
+                        // 地区区号选择
+                        .area-code-select-item {
+                            // margin-top: .2rem;
+                            display: flex;
+                            flex-direction: column;
+                            // label {
+                            //   font-family: "NotoSansSC-Bold";
+                            //   font-weight: 600;
+                            //   color: #6c727f;
+                            // }
+                            .area-code-select-box {
+                                // margin-top: .08rem;
+                                position: relative;
+                                width: .7rem;
+                                .checkout-select-btn {
+                                    height: .6133rem;
+                                    // border-right: .0133rem solid #E0E0E0;
+                                    // border-radius: .1781rem;
+                                    // background: pink;
+                                    padding: 0.005rem 0.05rem 0 0.2rem;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                        span{
+                                            margin-left: -.2rem;
+                                            color: #1A1A1A80;
+                                        }
+                                    // .arrow {
+                                    //     width: .5133rem;
+                                    //     height: .5133rem;
+                                    //     transition: 0.3s;
+                                    // }
+                                    // .arrow.rotate {
+                                    //     transform: rotate(180deg);
+                                    // }
+                                    }
+                                .checkout-dropdown {
+                                    position: absolute;
+                                    top: calc(100% + .00rem);  // 间距
+                                    left: 0;
+                                    width: 100%;
+                                    background: #f9f9f9;  // 和按钮不同颜色
+                                    border-radius: .1781rem;
+                                    border: .0133rem solid #ddd;
+                                    
+                                    box-shadow: 0 .0533rem .1333rem rgba(0, 0, 0, 0.1);
+                                    overflow: hidden;
+                                    z-index: 10;
+                                    .checkout-dropdown-item {
+                                        border-bottom: .0133rem solid #ddd;
+                                        padding: .15rem .2rem .15rem .1rem;;
+                                        cursor: pointer;
+                                        color: #1A1A1A80;
+                                    }
+                                    .checkout-dropdown-item:hover {
+                                        background: #eee;
+                                    }
+                                }
+                            }
+                        }
+                        input {
+                            // background-color: skyblue;
+                            margin: 0;
+                            width: 2.36rem;
+                            height: .45rem;
+                            border: 0;
+                            border-left: .01rem solid #E0E0E0;
+                            border-radius: 0;
+                            padding: .1781rem .2036rem;
+                            color: #1A1A1A80;
+                        }
+                    }
+                    
+
+
                     .label-mobile-number {
                         width: 4.36rem;
                         height: .2733rem;
@@ -537,7 +682,7 @@ async function submitForm() {
                     .ruler {
                         margin-top: -.3463rem;
                         width: 3.16rem;
-                        height: 23.14rem;
+                        height: 12.44rem;
                         background: url("https://www.1024.art/projects/static/vale2026rsvp/images/register/ruler.png") top center no-repeat;
                         background-size: 100% 100%;
                         margin-bottom: .4rem;

@@ -14,6 +14,7 @@ export type UserInfo = {
     room_type?: string;
     // 注册页面填写的信息
     invitation_code?: string;
+    area_code?: string;
     mobile_number?: string;
     verify_code?: string;
     // 完善个人信息
