@@ -192,7 +192,7 @@ async function submitForm() {
     
   } else {
     console.log("注册失败");
-    Toast(res.data.errmsg);
+    Toast("网络异常，请稍后重试");
   }
 }
 
@@ -240,10 +240,10 @@ async function submitForm() {
                                 <div class="area-code-select-box">
                                     <!-- 按钮 -->
                                     <div class="checkout-select-btn" @click="showAreaCodeDropdown = !showAreaCodeDropdown">
-                                        <!-- <span>{{ areaCodeSelected ||  '请选择退房日期'}}</span> -->
                                         <span>{{ areaCodeSelected }}</span>
                                         <!-- 箭头（可以换图片） -->
                                         <!-- <img src="https://www.1024.art/projects/static/vale2026rsvp/images/departure/select-btn.png" class="arrow" :class="{ rotate: showAreaCodeDropdown }" /> -->
+                                        <div class="arrow"></div>
                                     </div>
                                     <!-- 下拉框 -->
                                     <div class="checkout-dropdown" v-if="showAreaCodeDropdown">
@@ -501,7 +501,7 @@ async function submitForm() {
                             .area-code-select-box {
                                 // margin-top: .08rem;
                                 position: relative;
-                                width: .7rem;
+                                width: .9rem;
                                 .checkout-select-btn {
                                     height: .6133rem;
                                     // border-right: .0133rem solid #E0E0E0;
@@ -516,14 +516,25 @@ async function submitForm() {
                                             margin-left: -.2rem;
                                             color: #1A1A1A80;
                                         }
-                                    // .arrow {
-                                    //     width: .5133rem;
-                                    //     height: .5133rem;
-                                    //     transition: 0.3s;
-                                    // }
-                                    // .arrow.rotate {
-                                    //     transform: rotate(180deg);
-                                    // }
+                                        // .arrow {
+                                        //     width: .5133rem;
+                                        //     height: .5133rem;
+                                        //     transition: 0.3s;
+                                        // }
+                                        // .arrow.rotate {
+                                        //     transform: rotate(180deg);
+                                        // }
+                                        .arrow {
+                                            margin-top: -.03rem;
+                                            margin-left: .1rem;
+                                            width: .1rem;
+                                            height: .1rem;
+                                            border: .015rem #1A1A1A80 solid;
+                                            border-top: 0;
+                                            border-left: 0;
+                                            transform: rotate(45deg);
+                                            // background-color: skyblue;
+                                        }
                                     }
                                 .checkout-dropdown {
                                     position: absolute;

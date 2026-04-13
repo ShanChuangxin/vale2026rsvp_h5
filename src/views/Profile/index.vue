@@ -145,7 +145,7 @@ function backHome() {
         <div class="form-item">
             <!-- <label>公司/机构全称 * Company Name</label> -->
             <div class="label-company-name"></div>
-            <input type="text" v-model="form.company_name" placeholder="请输入公司名称" />
+            <input type="text" v-model="form.company_name" disabled="true" />
         </div>
         <div class="form-item">
             <!-- <label>部门 * Department</label> -->
