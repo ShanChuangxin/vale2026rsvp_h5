@@ -30,16 +30,16 @@ onMounted(async () => {
             if (!userStore.userInfo.name || !userStore.userInfo.gender || !userStore.userInfo.company_name || !userStore.userInfo.department || !userStore.userInfo.job_title) {
                 isPopWindow.value = true;   // 显示信息不全弹窗
                 updateNum = 1;   // 设置跳转路径
-            } else if (!userStore.userInfo.arrival_date || !userStore.userInfo.arrival_transport || ((userStore.userInfo.arrival_transport == '大理凤仪机场' || userStore.userInfo.arrival_transport == '大理站') && (!userStore.userInfo.pickup_required || !userStore.userInfo.transport_number || userStore.userInfo.arrival_hour===null || userStore.userInfo.arrival_min===null))) {
+            } else if (!userStore.userInfo.arrival_date || !userStore.userInfo.arrival_transport || ((userStore.userInfo.arrival_transport == '大理凤仪机场 (Dali Fengyi Airport)' || userStore.userInfo.arrival_transport == '大理站 (Dali Station)') && (!userStore.userInfo.pickup_required || !userStore.userInfo.transport_number || userStore.userInfo.arrival_hour===null || userStore.userInfo.arrival_min===null))) {
                 isPopWindow.value = true;   // 显示信息不全弹窗
                 updateNum = 2;   // 设置跳转路径
-            } else if (userStore.userInfo.arrival_transport  == '稍后提供' ) {
+            } else if (userStore.userInfo.arrival_transport  == '稍后提供 (To Be Provided Later)' ) {
                 isPopWindow.value = true;   // 显示信息不全弹窗
                 updateNum = 2;   // 设置跳转路径
-            } else if (!userStore.userInfo.departure_date || !userStore.userInfo.departure_transport || ((userStore.userInfo.departure_transport == '大理凤仪机场' || userStore.userInfo.departure_transport == '大理站') && (!userStore.userInfo.dropoff_required || userStore.userInfo.departure_hour===null || userStore.userInfo.departure_min===null))) {
+            } else if (!userStore.userInfo.departure_date || !userStore.userInfo.departure_transport || ((userStore.userInfo.departure_transport == '大理凤仪机场 (Dali Fengyi Airport)' || userStore.userInfo.departure_transport == '大理站 (Dali Station)') && (!userStore.userInfo.dropoff_required || userStore.userInfo.departure_hour===null || userStore.userInfo.departure_min===null))) {
                 isPopWindow.value = true;   // 显示信息不全弹窗
                 updateNum = 3;   // 设置跳转路径
-            } else if (userStore.userInfo.departure_transport  == '稍后提供' ) {
+            } else if (userStore.userInfo.departure_transport  == '稍后提供 (To Be Provided Later)' ) {
                 isPopWindow.value = true;   // 显示信息不全弹窗
                 updateNum = 3;   // 设置跳转路径
             } else if (!userStore.userInfo.checkin_date || !userStore.userInfo.checkout_date) {

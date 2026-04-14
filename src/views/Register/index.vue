@@ -266,7 +266,7 @@ async function submitForm() {
                         <!-- <label>验证码 * Verification Code</label> -->
                         <div class="label-verification-code"></div>
                         <div class="verification-code-area">
-                            <input type="number" v-model="form.verify_code" placeholder="请输入验证码" maxlength="6"  class="verification-code-input"/>
+                            <input type="text" v-model="form.verify_code" placeholder="请输入验证码" maxlength="6" inputmode="numeric" pattern="[0-9]*"  class="verification-code-input"/>
                             <div class="get-code-area" :class="{disabled: countdown > 0}" @click="sendCode">
                                 <h4>{{ countdown > 0 ? countdown + 's后重试' : '获取验证码' }}</h4>
                             </div>

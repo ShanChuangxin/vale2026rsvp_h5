@@ -48,7 +48,7 @@ function departureSelectOption(item: any) {
   // 2. 如果是稍后提供，则进行弹窗
   if (item.value == '稍后提供 (To Be Provided Later)') {
     Toast({
-        message: "如您暂无法确定返程方式，建议于5月7日前补充提供。\n If your departure transport is not yet confirmed, please provide them by May 7.",
+        message: "如您暂无法确定返程方式，建议于5月7日前补充提供。\nIf your departure transport is not yet confirmed, please provide it by May 7.",
         duration: 3000
     })
   }
@@ -542,8 +542,9 @@ function backHome() {
         
         .tips-not-sure-departure {
           margin-top: .2rem;
-          width: 4.1733rem;
-          height: .7733rem;
+          margin-left: -.3rem;
+          width: 3.8733rem;
+          height: .7333rem;
           background: url("https://www.1024.art/projects/static/vale2026rsvp/images/departure/tips-not-sure.png") top center no-repeat;
           background-size: 100% 100%;
         }
