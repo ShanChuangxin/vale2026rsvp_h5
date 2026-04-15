@@ -66,14 +66,15 @@ function backHome() {
       <div class="back-home" @click="backHome"></div>
     </div>
     
-    <div class="tips-body">
+    <!-- <div class="tips-body">
       <div class="tips-title"></div>
       <div class="tel"></div>
       <div class="tel-tips"></div>
       <div class="hospital"></div>
 
-    </div>
+    </div> -->
 
+    <div class="tips-content"></div>
     
                     
     <!-- 返回主页按钮 -->
@@ -90,7 +91,7 @@ function backHome() {
     // 通用页面
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    // height: 100vh;
     max-width: 1280px;
     // height: 100vh;
     // overflow: hidden;
@@ -153,12 +154,23 @@ function backHome() {
         background-size: 100% 100%;
       }
     }
+
+    .tips-content {
+      margin-top: .4rem;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      width: 4.36rem;
+      height: 7.6266rem;;
+      background: url("https://www.1024.art/projects/static/vale2026rsvp/images/tips/content.png") top center no-repeat;
+      background-size: 100% 100%;
+
+    }
  
 
     // 返回主页按钮
     .home-btn {
-      margin-top: .7rem;
-      margin-top: .7rem;
+      // margin-top: .7rem;
+      margin-bottom: .7rem;
       margin-left: 50%;
       transform: translateX(-50%);
       width: 4.36rem;
@@ -167,6 +179,7 @@ function backHome() {
       background-size: 100% 100%;
     }
     .home-btn.press {
+      margin-bottom: .7rem;
       width: 4.36rem;
       height: .72rem;;
       background: url("https://www.1024.art/projects/static/vale2026rsvp/images/tips/home-pressed.png") top center no-repeat;

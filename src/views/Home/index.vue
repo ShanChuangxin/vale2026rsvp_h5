@@ -17,6 +17,18 @@ onMounted(() => {
   }
 });
 
+// onMounted(() => {
+//   const fromExternal = sessionStorage.getItem("fromExternal");
+
+//   if (fromExternal) {
+//     Toast("清除信息并刷新");
+//     sessionStorage.removeItem("fromExternal");
+
+//     // window.location.replace("http://192.168.50.21:5173/projects/vale2026rsvp/home");
+//     window.location.href = location.origin + location.pathname + "?t=" + Date.now();
+//   }
+// });
+
 // 加载用户信息
 const userStore = useUserStore();
 onMounted(async () => {
@@ -103,7 +115,11 @@ function clickMenuBtn( menuNum:number) {
         case 6: router.replace('/tips');
             console.log("跳转到日程安排页面");
             break;
-        case 7: Toast("等待获取参会照片链接..");
+        // case 7: Toast("等待获取参会照片链接..");
+        case 7: 
+            // sessionStorage.setItem("fromExternal", "1");    // 标记跳转到外链路
+            window.location.href="https://m.alltuu.com/album/8bac674e789d8e90f134d5cb1de18438/?menu=live";
+        // case 7: window.location.replace("https://m.alltuu.com/album/8bac674e789d8e90f134d5cb1de18438/?menu=live");
             console.log("跳转到参会照片页面");
             break;
         default:
@@ -184,6 +200,7 @@ function onNoBtnTouchEnd() {
 
 // debug
 function debugSwitchDate() {
+    return;
     isClose.value = !isClose.value;
     if (isClose.value) {
         Toast("切换到5.13之前");
@@ -192,6 +209,7 @@ function debugSwitchDate() {
     }
 }
 function debugLogout() {
+    return;
     userStore.clearUserInfo();
     Toast("用户本地信息已清除");
     setTimeout(() => {

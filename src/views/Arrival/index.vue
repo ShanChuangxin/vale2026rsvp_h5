@@ -48,7 +48,7 @@ function arrivalSelectOption(item: any) {
   // 2. 如果是稍后提供，则进行弹窗
   if (item.value == '稍后提供 (To Be Provided Later)') {
     Toast({
-        message: "如您暂无法确定抵达方式，建议于4月29日前补充提供。\nIf your arrival transport is not yet confirmed, please provide it by April 29.",
+        message: "如您暂无法确定抵达方式，建议于4月30日前补充提供。\nIf your arrival transport is not yet confirmed, please provide it by April 30.",
         duration: 3000
     })
   }

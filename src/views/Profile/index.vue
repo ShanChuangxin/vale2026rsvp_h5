@@ -51,10 +51,6 @@ async function submitForm() {
   if (!form.value.name) {
     // Toast('请输入姓名');
     Toast('请完成必填项（*）。\nPlease fill in all required fields (*).');
-    // Toast({
-    //     message: "抵达方式建议您于4月29日前提供 \n It is recommended that you provide the arrival details by April 29th.",
-    //     duration: 2000
-    // })
     return;
   }
   if (!form.value.gender) {
