@@ -160,7 +160,7 @@ function backHome() {
       margin-left: 50%;
       transform: translateX(-50%);
       width: 4.36rem;
-      height: 7.6266rem;;
+      height: 7.36rem;;
       background: url("https://www.1024.art/projects/static/vale2026rsvp/images/tips/content.png") top center no-repeat;
       background-size: 100% 100%;
 
