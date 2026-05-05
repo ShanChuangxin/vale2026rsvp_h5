@@ -45,6 +45,8 @@ export type UserInfo = {
     attend_gala_dinner?: string;
     cloth_size?: string;
     remarks?: string;
+    // 是否签到
+    is_signin?: Boolean;
 }
 
 // 注册结果

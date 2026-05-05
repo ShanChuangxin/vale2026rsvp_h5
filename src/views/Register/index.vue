@@ -188,7 +188,8 @@ async function submitForm() {
     
   } else {
     console.log("注册失败");
-    Toast("网络异常，请稍后重试");
+    Toast(res.data.errmsg);
+    // Toast("网络异常，请稍后重试");
   }
 }
 
