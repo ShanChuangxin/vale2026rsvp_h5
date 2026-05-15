@@ -30,7 +30,7 @@ onMounted(async () => {
             tableNum.value = userStore.userInfo.table_num;
             calPostion(); // 更新页面显示内容
             if (!tableNum.value) {
-              Toast("桌号还未分配");
+              Toast("桌号还未分配\nTable number not yet assigned, please check back shortly.");
             }
         } else {
             console.log(res.data.errmsg);
@@ -47,13 +47,19 @@ const tableNum = ref(0);  // 座位号
 const tablePosition = ref('back'); // front为前，left为左，right为右，back为后
 // 根据座位号计算区域
 function calPostion() {
-  if (tableNum.value <= 3) {  // 前排
+  // 定义座位所在区域
+  const frontArea = [1, 2, 3];
+  const backArea = [5, 6, 7, 8, 9, 10, 11, 33, 35, 36, 37, 38];
+  const leftArea = [12, 15, 16, 20, 21, 22, 27, 28, 29, 39, 40];
+  const rightArea = [17, 18, 19, 23, 25, 26, 30, 31, 32, 42, 43]
+  // 计算座位区域
+  if (frontArea.includes(tableNum.value)) {  // 前排
     tablePosition.value = "front";
-  } else if (tableNum.value <= 18) { // 后排
+  } else if (backArea.includes(tableNum.value)) { // 后排
     tablePosition.value = "back";
-  } else if (tableNum.value <= 31) {  // 左排
+  } else if (leftArea.includes(tableNum.value)) {  // 左排
     tablePosition.value = "left";
-  } else if (tableNum.value <= 45) {  // 右排
+  } else if (rightArea.includes(tableNum.value)) {  // 右排
     tablePosition.value = "right"  
   } else {
     console.log("座位号错误");

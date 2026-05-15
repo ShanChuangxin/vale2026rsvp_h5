@@ -117,7 +117,8 @@ function makesureInfo() {
   // 不需要提交服务器
 
   // 跳转到提交成功页面
-  router.replace('/success');
+  // router.replace('/success');
+  router.replace('/home');
 }
 
 // 跳转到首页
@@ -246,7 +247,7 @@ function backHome() {
       </div>
     </div>
     <!-- 返回编辑按钮 -->
-    <div class="edit-btn" @click="toPlanPage"></div>
+    <!-- <div class="edit-btn" @click="toPlanPage"></div> -->
     <!-- 保存按钮 -->
     <div class="btn-tick" @click="makesureInfo">
       <div class="tick"></div>

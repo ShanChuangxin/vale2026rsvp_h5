@@ -39,31 +39,32 @@ onMounted(async () => {
             // 先更新进本地存储
             userStore.setUserInfo(res.data.data.user_info);
             // 判断是否需要弹窗提醒更新信息
-            if (!userStore.userInfo.name || !userStore.userInfo.gender || !userStore.userInfo.company_name || !userStore.userInfo.department || !userStore.userInfo.job_title) {
-                isPopWindow.value = true;   // 显示信息不全弹窗
-                updateNum = 1;   // 设置跳转路径
-            } else if (!userStore.userInfo.arrival_date || !userStore.userInfo.arrival_transport || ((userStore.userInfo.arrival_transport == '大理凤仪机场 (Dali Fengyi Airport)' || userStore.userInfo.arrival_transport == '大理站 (Dali Station)') && (!userStore.userInfo.pickup_required || !userStore.userInfo.transport_number || userStore.userInfo.arrival_hour===null || userStore.userInfo.arrival_min===null))) {
-                isPopWindow.value = true;   // 显示信息不全弹窗
-                updateNum = 2;   // 设置跳转路径
-            } else if (userStore.userInfo.arrival_transport  == '稍后提供 (To Be Provided Later)' ) {
-                isPopWindow.value = true;   // 显示信息不全弹窗
-                updateNum = 2;   // 设置跳转路径
-            } else if (!userStore.userInfo.departure_date || !userStore.userInfo.departure_transport || ((userStore.userInfo.departure_transport == '大理凤仪机场 (Dali Fengyi Airport)' || userStore.userInfo.departure_transport == '大理站 (Dali Station)') && (!userStore.userInfo.dropoff_required || userStore.userInfo.departure_hour===null || userStore.userInfo.departure_min===null))) {
-                isPopWindow.value = true;   // 显示信息不全弹窗
-                updateNum = 3;   // 设置跳转路径
-            } else if (userStore.userInfo.departure_transport  == '稍后提供 (To Be Provided Later)' ) {
-                isPopWindow.value = true;   // 显示信息不全弹窗
-                updateNum = 3;   // 设置跳转路径
-            } else if (!userStore.userInfo.checkin_date || !userStore.userInfo.checkout_date) {
-                console.log("更新酒店信息");
-                isPopWindow.value = true;   // 显示信息不全弹窗
-                updateNum = 4;   // 设置跳转路径
-            } else if (!userStore.userInfo.attend_welcome_dinner || !userStore.userInfo.attend_gala_dinner || !userStore.userInfo.cloth_size) {
-                isPopWindow.value = true;   // 显示信息不全弹窗
-                updateNum = 5;   // 设置跳转路径
-            } else {
-                console.log("资料完整，无需要弹窗更新");
-            }
+            // 关闭编辑，包括弹窗提醒
+            // if (!userStore.userInfo.name || !userStore.userInfo.gender || !userStore.userInfo.company_name || !userStore.userInfo.department || !userStore.userInfo.job_title) {
+            //     isPopWindow.value = true;   // 显示信息不全弹窗
+            //     updateNum = 1;   // 设置跳转路径
+            // } else if (!userStore.userInfo.arrival_date || !userStore.userInfo.arrival_transport || ((userStore.userInfo.arrival_transport == '大理凤仪机场 (Dali Fengyi Airport)' || userStore.userInfo.arrival_transport == '大理站 (Dali Station)') && (!userStore.userInfo.pickup_required || !userStore.userInfo.transport_number || userStore.userInfo.arrival_hour===null || userStore.userInfo.arrival_min===null))) {
+            //     isPopWindow.value = true;   // 显示信息不全弹窗
+            //     updateNum = 2;   // 设置跳转路径
+            // } else if (userStore.userInfo.arrival_transport  == '稍后提供 (To Be Provided Later)' ) {
+            //     isPopWindow.value = true;   // 显示信息不全弹窗
+            //     updateNum = 2;   // 设置跳转路径
+            // } else if (!userStore.userInfo.departure_date || !userStore.userInfo.departure_transport || ((userStore.userInfo.departure_transport == '大理凤仪机场 (Dali Fengyi Airport)' || userStore.userInfo.departure_transport == '大理站 (Dali Station)') && (!userStore.userInfo.dropoff_required || userStore.userInfo.departure_hour===null || userStore.userInfo.departure_min===null))) {
+            //     isPopWindow.value = true;   // 显示信息不全弹窗
+            //     updateNum = 3;   // 设置跳转路径
+            // } else if (userStore.userInfo.departure_transport  == '稍后提供 (To Be Provided Later)' ) {
+            //     isPopWindow.value = true;   // 显示信息不全弹窗
+            //     updateNum = 3;   // 设置跳转路径
+            // } else if (!userStore.userInfo.checkin_date || !userStore.userInfo.checkout_date) {
+            //     console.log("更新酒店信息");
+            //     isPopWindow.value = true;   // 显示信息不全弹窗
+            //     updateNum = 4;   // 设置跳转路径
+            // } else if (!userStore.userInfo.attend_welcome_dinner || !userStore.userInfo.attend_gala_dinner || !userStore.userInfo.cloth_size) {
+            //     isPopWindow.value = true;   // 显示信息不全弹窗
+            //     updateNum = 5;   // 设置跳转路径
+            // } else {
+            //     console.log("资料完整，无需要弹窗更新");
+            // }
             console.log(updateNum);
         } else {
             console.log(res.data.errmsg);
@@ -78,7 +79,7 @@ onMounted(async () => {
 // 某些菜单未开放控制
 const isClose = ref(true);
 onMounted(() => {
-    const open_time = new Date(2026, 5, 13, 0, 0, 0);
+    const open_time = new Date(2026, 4, 13, 0, 0, 0);   // 注意月是从0开始
     const now = new Date();
     console.log(open_time.toString());
     console.log(now.toString());
